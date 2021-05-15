@@ -12,6 +12,7 @@ cloud.init({
 })
 
 const db = cloud.database();
+const _ = db.command;
 
 // 云函数入口函数
 exports.main = async (event, context) => {
@@ -21,7 +22,7 @@ exports.main = async (event, context) => {
   
   var poem = await db.collection("Poetry")
                      .where({
-                       _id: poemid
+                       _id: _.eq(poemid)
                      })
                      .get();
   poem = poem.data;
@@ -34,10 +35,10 @@ exports.main = async (event, context) => {
   }
   var res = await db.collection("Users")
                     .where({
-                      _id: openid
+                      _id: _.eq(openid)
                     })
                     .get();
-  var poem_star_count = poem["starts"];
+  var poem_star_count = poem[0].stars;
   const old_poem_star_count = poem_star_count;
   res = res.data;
   if (res.length == 0) {
@@ -58,41 +59,35 @@ exports.main = async (event, context) => {
     star_list.splice(index, 1);
   }
   
-  db.collection("Users")
-    .where({
-      _id: openid
-    })
-    .update({
-      collection: star_list,
-    })
-    .then( (res) => {
-      db.collection("Poetry")
-      .where({
-        _id: poemid
-      })
-      .update({
-        stars: poem_star_count,
-      })
-      .then((res) => {
-        return {
-          code: 0,
-          err: null,
-          data: poem_star_count
-        };
-      })
-      .catch((err) => {
-        return {
-          code: -4,
-          err: err,
-          data: old_poem_star_count
-        };
-      });
-    })
-    .catch((err) => {
-      return {
-        code: -3,
-        err: err,
-        data: old_poem_star_count
-      };
-    });
+  try {
+    await db.collection("Users")
+            .where({
+              _id: _.eq(openid)
+            })
+            .update({
+              data: {
+                collection: star_list,
+              }
+            });
+    await db.collection("Poetry")
+            .where({
+              _id: _.eq(poemid)
+            })
+            .update({
+              data: {
+                stars: poem_star_count,
+              }
+            });
+    return {
+      code: 0,
+      err: null,
+      data: poem_star_count
+    };
+  } catch (e) {
+    return {
+      code: -3,
+      err: e,
+      data: old_poem_star_count
+    };
+  }
 }
