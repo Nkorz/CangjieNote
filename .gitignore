@@ -1,0 +1,8 @@
+node_modules/
+.project
+unpackage/
+.vscode/
+.idea
+.DS_Store
+!packages/uni-app-plus/dist
+package-lock.json
