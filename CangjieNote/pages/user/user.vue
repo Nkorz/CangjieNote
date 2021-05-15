@@ -2,6 +2,25 @@
 	<view class="">
 		<view class="u-demo">
 			<view class="u-config-wrap">
+        
+        <view class="wrap" v-if="ok">
+          <view class="search">
+            <u-search v-model="value" @change="change" @custom="custom" @search="search" shape="round" :clearabled="clearabled"
+              :show-action="showAction" :input-align="inputAlign" @clear="clear"></u-search>
+          </view>
+          <view class="">
+            <u-cell-group title-bg-color="rgb(243, 244, 246)" :title="item.groupName" v-for="(item, index) in list" :key="index">
+              <u-cell-item :titleStyle="{fontWeight: 500}" @click="openPage(item1.path)" :title="item1.title" v-for="(item1, index1) in item.list"
+                :key="index1" :arrow="false">
+                <image slot="icon" class="u-cell-icon" :src="getIcon(item1.icon)" mode="widthFix"></image>
+              </u-cell-item>
+            </u-cell-group>
+          </view>
+          <view>
+            <u-button shape="square" :ripple="true" type="primary" @click="toUser">User</u-button>
+            <u-button shape="square" type="primary" @click="toDetail">Detail</u-button>
+          </view>
+        </view>
 				<!-- <view class="u-config-title u-border-bottom">
 					参数配置
 				</view>
@@ -25,6 +44,7 @@
 					<view class="u-item-title">提示角标</view>
 					<u-subsection :list="['显示', '隐藏']" @change="badgeChange"></u-subsection>
 				</view> -->
+        <view v-if="ok1">hhh</view>
 			</view>
 		</view>
 		<u-tabbar
@@ -44,6 +64,8 @@
 	export default {
 		data() {
 			return {
+        ok:true,
+        ok1:false,
 				current: 0,
 				show: true,
 				bgColor: '#ffffff',
@@ -86,10 +108,14 @@
 			},
 			bgColorChange(index) {
 				if(index == 0) {
+          this.ok=true;
+          this.ok1=!this.ok;
 					this.activeColor = '#5098FF';
 					this.inactiveColor = '#909399';
 				}
 				if(index == 1) {
+          this.ok=false;
+          this.ok1=!this.ok;
 					this.activeColor = '#D0D0D0';
 					this.inactiveColor = '#5A5A5A';
 				}

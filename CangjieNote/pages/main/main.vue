@@ -1,13 +1,18 @@
 <template>
   <view class="wrap">
+    <!-- <peom-card :peom-id="list[0].list[0].id" :title="list[0].list[0].title" :author="list[0].list[0].author" :star="list[0].list[0].star"
+      :star-num="list[0].list[0].starNum" :content="list[0].list[0].content"></peom-card> -->
     <view class="search">
       <u-search v-model="value" @change="change" @custom="custom" @search="search" shape="round" :clearabled="clearabled"
         :show-action="showAction" :input-align="inputAlign" @clear="clear"></u-search>
     </view>
     <view class="">
       <u-cell-group title-bg-color="rgb(243, 244, 246)" :title="item.groupName" v-for="(item, index) in list" :key="index">
-        <u-cell-item :titleStyle="{fontWeight: 500}" @click="openPage(item1.path)" :title="item1.title" v-for="(item1, index1) in item.list"
-          :key="index1" :arrow="false">
+        <u-cell-item  class="item" title-width="0rpx" @click="toDetail()" v-for="(item1, index1) in item.list" :key="index1" :arrow="false">
+          <view class="" @click="toDetail()">
+            <peom-card :peom-id="item1.id" :title="item1.title" :author="item1.author"
+              :star="item1.star" :star-num="item1.starNum" :content="item1.content"></peom-card>
+          </view>
           <image slot="icon" class="u-cell-icon" :src="getIcon(item1.icon)" mode="widthFix"></image>
         </u-cell-item>
       </u-cell-group>
@@ -17,111 +22,123 @@
       <u-button shape="square" type="primary" @click="toDetail">Detail</u-button>
     </view>
   </view>
-  </view>
-
-  </view>
 </template>
 
 <script>
+  import peomCard from "../../public-components/peom-card.vue";
   export default {
+    components: {
+      peomCard
+    },
     data() {
       return {
-        title: '课程首页',
-        mode: 'circle',
-        text: '', // 优先级比src高
-        size: '90',
+        title: "课程首页",
+        mode: "circle",
+        text: "", // 优先级比src高
+        size: "90",
         list: [{
-          groupName: 'icon也可以不要，瞎加的，就想试试',
+          groupName: "icon也可以不要，瞎加的，就想试试",
           list: [{
-            // path: '/pages/TeaClassList/TeaClassList',
-            // icon: 'form',
-            id: '0',
-            title: '雎鸠',
-            author: '诗经',
-            content: [
-              '关关雎鸠，在河之洲。窈窕淑女，君子好逑。',
-              '关关雎鸠，在河之洲。窈窕淑女，君子好逑。',
-            ]
-          }, {
-            // path: '/pages/TeaClassList/TeaClassList',
-            // icon: 'form',
-            id: 1,
-            title: '葛覃',
-            author: '诗经',
-            content: [
-              '关关雎鸠，在河之洲。窈窕淑女，君子好逑。',
-              '关关雎鸠，在河之洲。窈窕淑女，君子好逑。',
-            ]
-          }, {
-            // path: '/pages/TeaClassList/TeaClassList',
-            // icon: 'form',
-            id: 2,
-            title: '卷耳',
-            author: '诗经',
-            content: [
-              '关关雎鸠，在河之洲。窈窕淑女，君子好逑。',
-              '关关雎鸠，在河之洲。窈窕淑女，君子好逑。',
-            ]
-          }, ]
-        }]
-
-      }
+              // path: '/pages/TeaClassList/TeaClassList',
+              // icon: 'form',
+              id: "0",
+              title: "雎鸠",
+              author: "诗经",
+              star: true,
+              starNum: 123,
+              content: [
+                "关关雎鸠，在河之洲。窈窕淑女，君子好逑。",
+                "关关雎鸠，在河之洲。窈窕淑女，君子好逑。",
+              ],
+            },
+            {
+              // path: '/pages/TeaClassList/TeaClassList',
+              // icon: 'form',
+              id: 1,
+              title: "葛覃",
+              author: "诗经",
+              satr: false,
+              starNum: 100,
+              content: [
+                "关关雎鸠，在河之洲。窈窕淑女，君子好逑。",
+                "关关雎鸠，在河之洲。窈窕淑女，君子好逑。",
+              ],
+            },
+            {
+              // path: '/pages/TeaClassList/TeaClassList',
+              // icon: 'form',
+              id: 2,
+              title: "卷耳",
+              author: "诗经",
+              content: [
+                "关关雎鸠，在河之洲。窈窕淑女，君子好逑。",
+                "关关雎鸠，在河之洲。窈窕淑女，君子好逑。",
+              ],
+            },
+          ],
+        }, ],
+      };
     },
     computed: {
       getIcon() {
-        return path => {
-          return 'https://cdn.uviewui.com/uview/example/' + path + '.png'
-        }
-      }
+        return (path) => {
+          return "https://cdn.uviewui.com/uview/example/" + path + ".png";
+        };
+      },
     },
     methods: {
+      toDetail () {
+        this.$u.route({
+          url: '/pages/detail/detal',
+          animationType: 'slide-in-bottom'
+        })
+      },
       valueChange(index) {
-      	this.value = index == 0 ? '' : '天山雪莲';
+        this.value = index == 0 ? "" : "天山雪莲";
       },
       shapeChange(index) {
-      	this.shape = index == 0 ? 'round' : 'square';
+        this.shape = index == 0 ? "round" : "square";
       },
       clearabledChange(index) {
-      	this.clearabled = index == 0 ? true : false;
+        this.clearabled = index == 0 ? true : false;
       },
       showActionChange(index) {
-      	this.showAction = index == 0 ? true : false;
+        this.showAction = index == 0 ? true : false;
       },
       inputAlignChange(index) {
-      	this.inputAlign = index == 0 ? 'left' : index == 1 ? 'center' : 'right';
+        this.inputAlign = index == 0 ? "left" : index == 1 ? "center" : "right";
       },
       change(value) {
-      	// 搜索框内容变化时，会触发此事件，value值为输入框的内容
-      	//console.log(value);
+        // 搜索框内容变化时，会触发此事件，value值为输入框的内容
+        //console.log(value);
       },
       custom(value) {
-      	//console.log(value);
-      	this.$u.toast('输入值为：' + value)
+        //console.log(value);
+        this.$u.toast("输入值为：" + value);
       },
       search(value) {
-      	this.$refs.uToast.show({
-      		title: '搜索内容为：' + value,
-      		type: 'success'
-      	})
+        this.$refs.uToast.show({
+          title: "搜索内容为：" + value,
+          type: "success",
+        });
       },
       clear() {
-      	// console.log(this.value);
+        // console.log(this.value);
       },
       toUser() {
         this.$u.route({
-          url: '/pages/user/user',
-          animationType: 'slide-in-bottom'
-        })
+          url: "/pages/user/user",
+          animationType: "slide-in-bottom",
+        });
       },
       toDetail() {
         this.$u.route({
-          url: '/pages/detail/detail',
-          animationType: 'slide-in-bottom'
-        })
-      }
-
-    }
-  }
+          url: "/pages/detail/detail",
+          animationType: "slide-in-bottom",
+        });
+      },
+    },
+  };
 </script>
 
 <style scoped lang="scss">
@@ -129,6 +146,10 @@
     padding: 30rpx;
   }
 
+  .item{
+    padding: 0rpx;
+  }
+  
   .search {
     padding: 20rpx;
   }
@@ -166,6 +187,6 @@
   }
 
   .parent {
-    display: inline-block
+    display: inline-block;
   }
 </style>
