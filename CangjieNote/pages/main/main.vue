@@ -27,6 +27,10 @@
     				</view>
     			</u-card>
     		</view>
+        <view>
+          <button type="default" @click="toUser">User</button>
+          <button type="default" @click="toDetail">Detail</button>
+        </view>
     		</view>
     	</view>
     
@@ -41,6 +45,18 @@
 			}
 		},
 		methods: {
+      toUser () {
+        this.$u.route({
+          url: '/pages/user/user',
+          animationType: 'slide-in-bottom'
+        })
+      },
+      toDetail () {
+        this.$u.route({
+          url: '/pages/detail/detail',
+          animationType: 'slide-in-bottom'
+        })
+      }
 			
 		}
 	}
