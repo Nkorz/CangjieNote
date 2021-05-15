@@ -309,7 +309,11 @@
 				"navigationBarTitleText": "问题反馈"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/welcome/welcome/welcome",
+            "style" : {}
+        }
+    ],
 	"subPackages": [{
 			"root": "pages/API",
 			"pages": [{

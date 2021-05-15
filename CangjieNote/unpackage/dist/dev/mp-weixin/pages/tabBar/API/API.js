@@ -132,7 +132,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uLink = function uLink() {__webpack_require__.e(/*! require.ensure | components/uLink */ "components/uLink").then((function () {return resolve(__webpack_require__(/*! @/components/uLink.vue */ 1100));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var setTabBar = function setTabBar() {__webpack_require__.e(/*! require.ensure | components/api-set-tabbar */ "components/api-set-tabbar").then((function () {return resolve(__webpack_require__(/*! @/components/api-set-tabbar.nvue */ 1105));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uLink = function uLink() {__webpack_require__.e(/*! require.ensure | components/uLink */ "components/uLink").then((function () {return resolve(__webpack_require__(/*! @/components/uLink.vue */ 1106));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var setTabBar = function setTabBar() {__webpack_require__.e(/*! require.ensure | components/api-set-tabbar */ "components/api-set-tabbar").then((function () {return resolve(__webpack_require__(/*! @/components/api-set-tabbar.nvue */ 1111));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
