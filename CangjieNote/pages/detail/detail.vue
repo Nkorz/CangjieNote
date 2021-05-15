@@ -28,6 +28,8 @@
  			</view>
  		</view>
 		<poem-detail></poem-detail>
+		<u-line></u-line>
+		<comment></comment>
  		<u-tabbar
  		    v-model="current"
  		    :show="show"
@@ -43,6 +45,7 @@
  
  <script>
 	import poemDetail from "../../public-components/poem-detail.vue"
+	import comment from "../../public-components/comment.vue"
  	export default {
  		data() {
  			return {
@@ -93,7 +96,8 @@
  			}
  		},
 		components:{
-			poemDetail
+			poemDetail,
+			comment
 		},
  		methods: {
  			beforeSwitch(index) {
