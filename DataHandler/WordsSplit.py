@@ -14,7 +14,7 @@ tgt_path = os.path.join(tgt_dir_path, "chaizi-jt.txt")
 src_path = os.path.join(src_dir_path, "chaizi-jt.txt")
 
 if not os.path.exists(tgt_dir_path):
-    os.mkdir(tgt_dir_path)
+    os.makedirs(tgt_dir_path)
 
 with open(src_path, "r") as src_file:
     lines = src_file.readlines()
