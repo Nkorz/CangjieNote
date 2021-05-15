@@ -1,7 +1,8 @@
 <template>
   <view class="u-card-wrap">
     <u-card
-      @click="cardClick"
+      @body-click="cardClick"
+      @head-click="cardClick"
       :index="poemid"
       :title="title"
       :sub-title="author"
@@ -78,9 +79,17 @@ export default {
   methods: {
     cardClick(index) {
       console.log(index);
+      // this.$u.route({
+      //   url: '/pages/detail/detal',
+      //   animationType: 'slide-in-bottom'
+      // })
+      uni.navigateTo({
+        url: '../../pages/detail/detail'
+      })
       // 进入详情页
     },
     starClick(_) {
+      
       this.isStar ? this.nowStarNum-- : this.nowStarNum++;
       this.isStar = !this.isStar;
       // 上传到服务器
