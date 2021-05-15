@@ -15,7 +15,7 @@
 {
     '_id': "唯一标识",
     'title': "题目",
-    'content': "诗词内容",
+    'content': ["诗词的每一句", ...],
     'flag': "标识 additional_data 属于何种类型",
     'additional_data': {
         // 不同的 flag 具有不同的数据类型
