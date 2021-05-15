@@ -105,7 +105,7 @@
         },
         "usingComponents" : true,
         //这里加云函数路径
-        "cloudfunctionRoot": "cloudbase/",
+        "cloudfunctionRoot": "cloudfunctions/",
         "permission" : {}
     },
     "mp-alipay" : {
