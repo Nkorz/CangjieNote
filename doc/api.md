@@ -1,9 +1,35 @@
 # api
 
 - [api](#api)
-  - [poemCardView](#poemcardview)
+  - [login](#login)
     - [param](#param)
     - [result](#result)
+  - [poemCardView](#poemcardview)
+    - [param](#param-1)
+    - [result](#result-1)
+
+## login
+
+### param
+
+```json
+{
+    'cloudID': wx.cloud.CloudID(res.cloudID), // res 为 wx.getUserInfo 的返回值
+}
+```
+
+### result
+
+```json
+{
+    userInfo: {
+        ... // wx 的用户信息
+    },
+    openid: "xxx", // openid
+    appid: "xxx", // appis
+    unionid: "xxx", // unionid
+}
+```
 
 ## poemCardView
 
