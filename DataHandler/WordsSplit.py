@@ -24,7 +24,8 @@ with open(src_path, "r") as src_file:
         char = parts[0]
         radicals = [parts[i].split(" ") for i in range(1, len(parts))]
         json_arr.append({
-            "_id": _id,
+            ### 不设置 _id 交给小程序自动设置
+            # "_id": _id,
             "character": char,
             "radicals": radicals
         })
