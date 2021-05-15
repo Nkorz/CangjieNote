@@ -1,6 +1,7 @@
 <template>
 	<view>
-		
+		detail
+    <u-button @click="toGame">game</u-button>
 	</view>
 </template>
 
@@ -12,6 +13,12 @@
 			}
 		},
 		methods: {
+      toGame () {
+        this.$u.route({
+          url: '/pages/game/game',
+          animationType: 'slide-in-bottom'
+        })
+      }
 			
 		}
 	}

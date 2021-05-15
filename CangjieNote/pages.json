@@ -13,11 +13,35 @@
 	"pages": [
 		// 演示-组件
 		{
-			"path": "pages/example/components",
+			"path": "pages/main/main",
 			"style": {
-				"navigationBarTitleText": "组件"
+				"navigationBarTitleText": "仓颉笔记"
 			}
 		},
+    {
+    	"path": "pages/detail/detail",
+    	"style": {
+    		"navigationBarTitleText": "仓颉笔记"
+    	}
+    },
+    {
+    	"path": "pages/game/game",
+    	"style": {
+    		"navigationBarTitleText": "仓颉笔记"
+    	}
+    },
+    {
+    	"path": "pages/user/user",
+    	"style": {
+    		"navigationBarTitleText": "仓颉笔记"
+    	}
+    },
+    {
+    	"path": "pages/example/components",
+    	"style": {
+    		"navigationBarTitleText": "组件"
+    	}
+    },
 		// avatarCropper-头像裁剪
 		{
 			"path": "uview-ui/components/u-avatar-cropper/u-avatar-cropper",
@@ -55,22 +79,6 @@
 		}
 	    ,{
             "path" : "pages/welcome/welcome/welcome",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/main/main",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/user/user",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/detail/detail",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/game/game",
             "style" : {}
         }
     ],
