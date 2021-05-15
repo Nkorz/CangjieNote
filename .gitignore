@@ -1,6 +1,7 @@
 node_modules/
 .project
 unpackage/
+.hbuilderx/
 .vscode/
 .idea
 .DS_Store
