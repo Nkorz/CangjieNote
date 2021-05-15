@@ -1,34 +1,3 @@
-<!-- <template>
-	<view>
-		detail
-    <u-button @click="toGame">game</u-button>
-	</view>
-</template>
-
-<script>
-	export default {
-		data() {
-			return {
-				
-			}
-		},
-		methods: {
-      toGame () {
-        this.$u.route({
-          url: '/pages/game/game',
-          animationType: 'slide-in-bottom'
-        })
-      }
-			
-		}
-	}
-</script>
-
-<style>
-
-</style>
- -->
- 
  <template>
  	<view class="">
  		<view class="u-demo">
@@ -58,6 +27,7 @@
  				</view>
  			</view>
  		</view>
+		<poem-detail></poem-detail>
  		<u-tabbar
  		    v-model="current"
  		    :show="show"
@@ -72,6 +42,7 @@
  </template>
  
  <script>
+	import poemDetail from "../../public-components/poem-detail.vue"
  	export default {
  		data() {
  			return {
@@ -121,6 +92,9 @@
  				activeColor: '#5098FF'
  			}
  		},
+		components:{
+			poemDetail
+		},
  		methods: {
  			beforeSwitch(index) {
  				return true;
