@@ -57,6 +57,22 @@
             "path" : "pages/welcome/welcome/welcome",
             "style" : {}
         }
+        ,{
+            "path" : "pages/main/main",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/user/user",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/detail/detail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/game/game",
+            "style" : {}
+        }
     ],
 	"subPackages": [{
 			"root": "pages/componentsC",
