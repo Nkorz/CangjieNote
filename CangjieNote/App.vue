@@ -33,40 +33,48 @@
             uni.authorize({
               scope: 'scope.userInfo',
               success: (res) => {
-                console.log("uni.authorize success", res)
+                console.log("uni.authorize success", res);
                 that.login();
               },
               fail: (err) => {
-                console.log("uni.authorize fail", err)
+                console.log("uni.authorize fail", err);
               }
-            })
+            });
           } else {
             that.login();
           }
         },
         fail: (err) => {
-          console.log("uni.getSetting fail", err)
+          console.log("uni.getSetting fail", err);
         }
       })
     },
     methods: {
       login: () => {
-        uni.getUserInfo({
+        uni.login({
           success: (res) => {
-            console.log("uni.getUserInfo success", res);
-            wx.cloud.callFunction({
-              name: "login",
-              data: {
-                cloudID: wx.cloud.CloudID(res.cloudID)
+            console.log("uni.login success: ", res);
+            uni.getUserInfo({
+              success: (res) => {
+                console.log("uni.getUserInfo success", res);
+                wx.cloud.callFunction({
+                  name: "login",
+                  data: {
+                    cloudID: wx.cloud.CloudID(res.cloudID)
+                  }
+                }).then(res => {
+                  console.log("call cloud func(login) success: ", res);
+                }).catch(err => {
+                  console.log("call cloud func(login) fail: ", err);
+                });
+              },
+              fail: (err) => {
+                console.log("uni.getUserInfo fail", err);
               }
-            }).then(res => {
-              console.log("call cloud func(login) success: ", res);
-            }).catch(err => {
-              console.log("call cloud func(login) fail: ", err);
             });
           },
           fail: (err) => {
-            console.log("uni.getUserInfo fail", err);
+            console.log("uni.login fail: ", err);
           }
         });
       },
