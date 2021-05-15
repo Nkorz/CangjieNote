@@ -1,12 +1,35 @@
 # api
 
 - [api](#api)
-  - [login](#login)
+  - [starPoem](#starpoem)
     - [param](#param)
     - [result](#result)
-  - [poemCardView](#poemcardview)
+  - [login](#login)
     - [param](#param-1)
     - [result](#result-1)
+  - [poemCardView](#poemcardview)
+    - [param](#param-2)
+    - [result](#result-2)
+
+## starPoem
+
+### param
+
+```json
+{
+    'poemid': "xxx" // 想要点赞的诗词 id
+}
+```
+
+### result
+
+```json
+{
+    code: 0, // 请求成功为0，反之则为负数
+    err: null, // 若请求有误则返回错误的字符串，反之则为null
+    data: 10 // 整形，点赞后的点赞数，若poemid有误，则返回-1
+}
+```
 
 ## login
 
@@ -38,7 +61,6 @@
 ```json
 {
     'size': 10, // int, 表示需要请求的数据
-    'openid': "xxx" // String, 表示用户的 openid
 }
 ```
 

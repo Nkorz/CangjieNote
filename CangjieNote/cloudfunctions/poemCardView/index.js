@@ -13,11 +13,13 @@ cloud.init({
 
 const db = cloud.database();
 const MAX_NUM = 50;
+const _ = db.command;
 
 // 云函数入口函数
 exports.main = async (event, context) => {
+  const wxContext = cloud.getWXContext();
   const size = event.size > MAX_NUM ? MAX_NUM : event.size;
-  const openid = event.openid;
+  const openid = wxContext.OPENID;
   // 随机获取指定大小的数据
   var rand_poems = await db.collection("Poetry")
                            .aggregate()
@@ -26,12 +28,14 @@ exports.main = async (event, context) => {
                            })
                            .limit(size)
                            .end();
+  rand_poems = rand_poems.list;
   // 标识用户是否收藏
-  var res = await db.collection("users")
+  var res = await db.collection("Users")
                     .where({
-                      "_id": openid
+                      "_id": _.eq(openid)
                     })
                     .get();
+  res = res.data;
   if (res.length == 0) {
     return {
       code: -1,
@@ -52,15 +56,15 @@ exports.main = async (event, context) => {
       id: poem["_id"],
       title: poem["title"],
       author: author,
-      star: star_list.include(poem["_id"]),
+      star: star_list.includes(poem["_id"]),
       starNum: poem["stars"],
       content: poem["content"]
-    })
+    });
   });
 
   return {
     code: 0,
     err: null,
     data: formatted_data
-  }
+  };
 }
