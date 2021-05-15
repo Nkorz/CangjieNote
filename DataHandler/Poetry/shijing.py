@@ -26,6 +26,7 @@ with open(src_path, "r") as src_file:
             "flag": "诗经",
             "title": poem["title"],
             "content": poem["content"],
+            "stars": 0,
             "additional_data": {
                 "chapter": poem["chapter"],
                 "section": poem["section"]
