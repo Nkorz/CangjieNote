@@ -10,9 +10,9 @@
     <u-card
       @body-click="cardClick"
       @head-click="cardClick"
-      :index="poemid"
-      :title="title"
-      :sub-title="author"
+      :index="poem.id"
+      :title="poem.title"
+      :sub-title="poem.author"
       margin="50rpx"
       padding="30"
       border="false"
@@ -44,26 +44,31 @@
  * @event routerChange: 定义卡片的点击事件，一般是跳转到指定页面
  */
 export default {
+  /**
+   * Object: {
+   *  id: String,
+   *  title: String,
+   *  author: String,
+   *  star: Boolean,
+   *  starNum: Number,
+   *  content: Array
+   * }
+   */
   props: {
-    poemId: String,
-    title: String,
-    author: String,
-    star: Boolean,
-    starNum: Number,
-    content: Array,
+    poem: Object,
   },
   data() {
     return {
-      isStar: this.star,
-      nowStarNum: this.starNum,
+      isStar: this.poem.star,
+      nowStarNum: this.poem.starNum,
     };
   },
   computed: {
     normalizedContent() {
-      let firstItem = this.content[0];
+      let firstItem = this.poem.content[0];
       let len = firstItem.length;
       if (len <= 14) {
-        return this.content;
+        return this.poem.content;
       }
       let result = [];
       let mid;
@@ -71,9 +76,6 @@ export default {
         mid = len / 2;
 
         if (parseInt(mid) !== mid) {
-          console.log(this.content);
-          console.log("len:", len);
-          console.log("mid:", mid);
           throw "mid不是整数";
         }
       } catch (error) {
@@ -81,7 +83,7 @@ export default {
         return null;
       }
       for (let i = 0; i < len; i++) {
-        let str = this.content[i];
+        let str = this.poem.content[i];
         result.push(str.slice(0, mid));
         result.push(str.slice(mid));
         if (result.length === 2) break;
@@ -92,13 +94,12 @@ export default {
   },
   methods: {
     cardClick(_) {
-      this.$emit("routerChange");
+      this.$emit("routerChange", this.poem.id);
     },
     starClick(_) {
       this.isStar ? this.nowStarNum-- : this.nowStarNum++;
       this.isStar = !this.isStar;
-      const poemId = this.poemId;
-      console.log("id:", poemId);
+      const poemId = this.poem.id;
       // 上传到服务器
       wx.cloud.callFunction({
         // 云函数名称

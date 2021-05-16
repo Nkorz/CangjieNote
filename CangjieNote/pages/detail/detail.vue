@@ -1,17 +1,18 @@
  <template>
   <view class="">
-    <poem-card></poem-card>
-	<u-line></u-line>
+    <poem-card :poem="poem"></poem-card>
+    <u-line></u-line>
     <comment></comment>
   </view>
 </template>
  
  <script>
-	import poemCard from "../../public-components/poem-card.vue" 
-	import comment from "../../public-components/comment.vue";
+import poemCard from "../../public-components/poem-card.vue";
+import comment from "../../public-components/comment.vue";
 export default {
   data() {
     return {
+      poem: null,
       ok: false,
       current: 0,
       show: true,
@@ -61,7 +62,7 @@ export default {
   },
   components: {
     comment,
-	poemCard
+    poemCard,
   },
   methods: {
     beforeSwitch(index) {
@@ -97,10 +98,15 @@ export default {
       this.midButton = !index;
     },
   },
+  onLoad(options) {
+    let poemId = options.id;
+    // 通过poemId从后端获取诗
+    // ...
+    // 传递给[this.poem]
+  },
 };
 </script>
  
 <style scoped lang="scss">
-
 </style>
  

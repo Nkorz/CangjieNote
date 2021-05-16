@@ -28,15 +28,7 @@
           :arrow="false"
         >
           <view class="">
-            <poem-card
-              :poem-id="item1.id"
-              :title="item1.title"
-              :author="item1.author"
-              :star="item1.star"
-              :star-num="item1.starNum"
-              :content="item1.content"
-              @routerChange="toDetail"
-            ></poem-card>
+            <poem-card :poem="item1" @routerChange="toDetail"></poem-card>
           </view>
           <image
             slot="icon"
@@ -103,10 +95,11 @@ export default {
     },
   },
   methods: {
-    toDetail() {
+    toDetail(id) {
       this.$u.route({
-        url: "/pages/detail/detal",
+        url: "/pages/detail/detail",
         animationType: "slide-in-bottom",
+        params: { id: id },
       });
     },
     valueChange(index) {
@@ -147,12 +140,6 @@ export default {
     toUser() {
       this.$u.route({
         url: "/pages/user/user",
-        animationType: "slide-in-bottom",
-      });
-    },
-    toDetail() {
-      this.$u.route({
-        url: "/pages/detail/detail",
         animationType: "slide-in-bottom",
       });
     },
