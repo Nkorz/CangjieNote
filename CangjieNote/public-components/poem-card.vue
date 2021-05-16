@@ -97,13 +97,15 @@ export default {
     starClick(_) {
       this.isStar ? this.nowStarNum-- : this.nowStarNum++;
       this.isStar = !this.isStar;
+      const poemId = this.poemId;
+      console.log("id:", poemId);
       // 上传到服务器
       wx.cloud.callFunction({
         // 云函数名称
         name: "starPoem",
         // 传给云函数的参数
         data: {
-          size: 100,
+          poemid: poemId,
         },
         success: function (res) {
           // res = {
@@ -111,9 +113,7 @@ export default {
           //   err: null, // 若请求有误则返回错误的字符串，反之则为null
           //   data: 10, // 整形，点赞后的点赞数，若poemid有误，则返回-1
           // };
-          if (code < 0) {
-            console.log(err);
-          }
+          console.log("res:", res);
         },
         fail: console.error,
       });
