@@ -126,6 +126,7 @@ export default {
     },
     change(value) {
       //try tapd
+      //try tapd
       // 搜索框内容变化时，会触发此事件，value值为输入框的内容
       //console.log(value);
     },
