@@ -38,45 +38,8 @@
         text: "", // 优先级比src高
         size: "90",
         list: [{
-          groupName: "icon也可以不要，瞎加的，就想试试",
-          list: [{
-              // path: '/pages/TeaClassList/TeaClassList',
-              // icon: 'form',
-              id: "0",
-              title: "雎鸠",
-              author: "诗经",
-              star: true,
-              starNum: 123,
-              content: [
-                "关关雎鸠，在河之洲。窈窕淑女，君子好逑。",
-                "关关雎鸠，在河之洲。窈窕淑女，君子好逑。",
-              ],
-            },
-            {
-              // path: '/pages/TeaClassList/TeaClassList',
-              // icon: 'form',
-              id: 1,
-              title: "葛覃",
-              author: "诗经",
-              satr: false,
-              starNum: 100,
-              content: [
-                "关关雎鸠，在河之洲。窈窕淑女，君子好逑。",
-                "关关雎鸠，在河之洲。窈窕淑女，君子好逑。",
-              ],
-            },
-            {
-              // path: '/pages/TeaClassList/TeaClassList',
-              // icon: 'form',
-              id: 2,
-              title: "卷耳",
-              author: "诗经",
-              content: [
-                "关关雎鸠，在河之洲。窈窕淑女，君子好逑。",
-                "关关雎鸠，在河之洲。窈窕淑女，君子好逑。",
-              ],
-            },
-          ],
+          groupName: "诗歌列表",
+          list: [],
         }, ],
       };
     },
