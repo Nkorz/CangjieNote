@@ -103,6 +103,19 @@ export default {
     // 通过poemId从后端获取诗
     // ...
     // 传递给[this.poem]
+	wx.cloud.callFunction({
+		name:'getPoemUseId',
+		data:{
+			poemid:poemId,
+		},
+		success:function(res){
+			console.log(res.result.data);
+			this.poem=res.result.data;
+		},
+		fail:function(error) {
+			console.log("error:", error);
+		}
+	})
   },
 };
 </script>

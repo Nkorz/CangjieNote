@@ -10,9 +10,9 @@
     <u-card
       @body-click="cardClick"
       @head-click="cardClick"
-      :index="poem.id"
-      :title="poem.title"
-      :sub-title="poem.author"
+      :index="id"
+      :title="title"
+      :sub-title="author"
       margin="50rpx"
       padding="30"
       border="false"
@@ -29,9 +29,9 @@
         <u-icon
           class="card-foot-icon"
           color="orange"
-          :name="[isStar ? 'star-fill' : 'star']"
+          :name="[star ? 'star-fill' : 'star']"
           size="34"
-          :label="`${nowStarNum}人收藏`"
+          :label="`${starNum}人收藏`"
           @click="starClick"
         ></u-icon>
       </view>
@@ -56,50 +56,68 @@ export default {
    */
   props: {
     poem: Object,
+	thumb: {
+		type: Boolean,
+		default: true
+	},		// 若为false，则显示诗的所有字
   },
   data() {
     return {
-      isStar: this.poem.star,
-      nowStarNum: this.poem.starNum,
+		id: "",
+		title: "",
+		author: "",
+		content: [],
+      star: false,
+      starNum: 0,
     };
+  },
+  mounted() {
+	  console.log("poem-mounted:", this.poem);
+  	if (this.poem) {
+		this.id = this.poem.id;
+		this.title = this.poem.title;
+		this.author = this.poem.author;
+		this.star = this.poem.star;
+		this.starNum = this.poem.starNum;
+		this.content = this.poem.content;
+	}
+  },
+  watch: {
+	  poem(val) {
+		  console.log("poem-watch", val);
+		  this.id = val.id;
+		  this.title = val.title;
+		  this.author = val.author;
+		  this.star = val.star;
+		  this.starNum = val.starNum;
+		  this.content = val.content;
+	  }
   },
   computed: {
     normalizedContent() {
-      let firstItem = this.poem.content[0];
+		if (!this.thumb || this.content.length === 0) {
+			return this.content;
+		}
+      let firstItem = this.content[0];
       let len = firstItem.length;
-      if (len <= 14) {
-        return this.poem.content;
+      if (len <= 12) {
+        return this.content;
       }
       let result = [];
-      let mid;
-      try {
-        mid = len / 2;
-
-        if (parseInt(mid) !== mid) {
-          throw "mid不是整数";
-        }
-      } catch (error) {
-        console.log(error);
-        return null;
-      }
-      for (let i = 0; i < len; i++) {
-        let str = this.poem.content[i];
-        result.push(str.slice(0, mid));
-        result.push(str.slice(mid));
-        if (result.length === 2) break;
-      }
-      result.push("...");
-      return result;
+	  this.content.forEach(sentence => {
+		  result.push(sentence.slice(0, 12) + "...");
+	  });
+	  return result;
     },
   },
   methods: {
     cardClick(_) {
-      this.$emit("routerChange", this.poem.id);
+      this.$emit("routerChange", this.id);
     },
     starClick(_) {
-      this.isStar ? this.nowStarNum-- : this.nowStarNum++;
-      this.isStar = !this.isStar;
-      const poemId = this.poem.id;
+      this.star ? this.starNum-- : this.starNum++;
+      this.star = !this.star;
+      const poemId = this.id;
       // 上传到服务器
       wx.cloud.callFunction({
         // 云函数名称
