@@ -1,62 +1,14 @@
  <template>
   <view class="">
-    <view class="u-demo">
-      <view class="u-config-wrap" v-if="1 > 2">
-        <view class="u-config-title u-border-bottom"> 参数配置 </view>
-        <view class="u-config-item">
-          <view class="u-item-title">状态</view>
-          <u-subsection
-            :list="['显示', '隐藏']"
-            @change="showChange"
-          ></u-subsection>
-        </view>
-        <view class="u-config-item">
-          <view class="u-item-title">凸起按钮</view>
-          <u-subsection
-            :list="['显示', '隐藏']"
-            @change="minButtonChange"
-          ></u-subsection>
-        </view>
-        <view class="u-config-item">
-          <view class="u-item-title">背景色</view>
-          <u-subsection
-            :list="['#ffffff', '#1f1f1d']"
-            @change="bgColorChange"
-          ></u-subsection>
-        </view>
-        <view class="u-config-item">
-          <view class="u-item-title">顶部边框</view>
-          <u-subsection
-            :list="['显示', '隐藏']"
-            @change="borderTopChange"
-          ></u-subsection>
-        </view>
-        <view class="u-config-item">
-          <view class="u-item-title">提示角标</view>
-          <u-subsection
-            :list="['显示', '隐藏']"
-            @change="badgeChange"
-          ></u-subsection>
-        </view>
-      </view>
-    </view>
-    <u-line></u-line>
+    <poem-card></poem-card>
+	<u-line></u-line>
     <comment></comment>
-    <u-tabbar
-      v-model="current"
-      :show="show"
-      :bg-color="bgColor"
-      :border-top="borderTop"
-      :list="list"
-      :mid-button="midButton"
-      :inactive-color="inactiveColor"
-      :activeColor="activeColor"
-    ></u-tabbar>
   </view>
 </template>
  
  <script>
-import comment from "../../public-components/comment.vue";
+	import poemCard from "../../public-components/poem-card.vue" 
+	import comment from "../../public-components/comment.vue";
 export default {
   data() {
     return {
@@ -109,6 +61,7 @@ export default {
   },
   components: {
     comment,
+	poemCard
   },
   methods: {
     beforeSwitch(index) {
@@ -147,9 +100,7 @@ export default {
 };
 </script>
  
- <style scoped lang="scss">
-.u-demo-area {
-  margin: 0 -40rpx;
-}
+<style scoped lang="scss">
+
 </style>
  
