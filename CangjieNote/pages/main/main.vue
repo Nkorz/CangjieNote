@@ -47,14 +47,23 @@
         >Detail</u-button
       >
     </view>
+    <drag-button
+    	:isDock="true"
+    	:existTabBar="true"
+    	@btnClick="btnClick"
+    	@btnTouchstart="btnTouchstart"
+    	@btnTouchend="btnTouchend"
+    />
   </view>
 </template>
 
 <script>
 import poemCard from "../../public-components/poem-card.vue";
+import dragButton from "../../public-components/drag-button.vue";
 export default {
   components: {
     poemCard,
+    dragButton
   },
   data() {
     return {
@@ -71,6 +80,7 @@ export default {
     };
   },
   onLoad() {
+    console.log('yyy')
     let that = this;
     wx.cloud.callFunction({
       // 云函数名称
@@ -95,6 +105,19 @@ export default {
     },
   },
   methods: {
+    btnClick() {
+      this.$u.route({
+        url: "/pages/user/user",
+        animationType: "slide-in-bottom",
+      });
+    	console.log('btnClick');
+    },
+    btnTouchstart() {
+    	console.log('btnTouchstart');
+    },
+    btnTouchend() {
+    	console.log('btnTouchend');
+    },
     toDetail(id) {
       this.$u.route({
         url: "/pages/detail/detail",
