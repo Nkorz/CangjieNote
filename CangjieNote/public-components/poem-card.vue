@@ -1,3 +1,10 @@
+<!--
+ * @FileDescription: 诗词展示卡片组件
+ * @Author: 张祥玙
+ * @Date: 2021.5.15 13:14
+ * @LastEditors: 张祥玙
+ * @LastEditTime: 2021.5.16 10:41
+ -->
 <template>
   <view class="u-card-wrap">
     <u-card
@@ -33,9 +40,12 @@
 </template>
 
 <script>
+/**
+ * @event routerChange: 定义卡片的点击事件，一般是跳转到指定页面
+ */
 export default {
   props: {
-    peomId: String,
+    poemId: String,
     title: String,
     author: String,
     star: Boolean,
@@ -59,7 +69,7 @@ export default {
       let mid;
       try {
         mid = len / 2;
-        
+
         if (parseInt(mid) !== mid) {
           console.log(this.content);
           console.log("len:", len);
@@ -81,22 +91,32 @@ export default {
     },
   },
   methods: {
-    cardClick(index) {
-      console.log(index);
-      // this.$u.route({
-      //   url: '/pages/detail/detal',
-      //   animationType: 'slide-in-bottom'
-      // })
-      uni.navigateTo({
-        url: '../../pages/detail/detail'
-      })
-      // 进入详情页
+    cardClick(_) {
+      this.$emit("routerChange");
     },
     starClick(_) {
-      
       this.isStar ? this.nowStarNum-- : this.nowStarNum++;
       this.isStar = !this.isStar;
       // 上传到服务器
+      wx.cloud.callFunction({
+        // 云函数名称
+        name: "poemCardView",
+        // 传给云函数的参数
+        data: {
+          size: 100,
+        },
+        success: function (res) {
+          // res = {
+          //   code: 0, // 请求成功为0，反之则为负数
+          //   err: null, // 若请求有误则返回错误的字符串，反之则为null
+          //   data: 10, // 整形，点赞后的点赞数，若poemid有误，则返回-1
+          // };
+          if (code < 0) {
+            console.log(err);
+          }
+        },
+        fail: console.error,
+      });
     },
   },
 };
