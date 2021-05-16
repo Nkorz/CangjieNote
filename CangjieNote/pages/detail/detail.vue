@@ -1,6 +1,6 @@
  <template>
   <view class="">
-    <poem-card :poem="poem"></poem-card>
+    <poem-card :poem="poem" :thumb="false"></poem-card>
     <u-line></u-line>
     <comment></comment>
   </view>
@@ -100,22 +100,21 @@ export default {
   },
   onLoad(options) {
     let poemId = options.id;
+    let that = this;
     // 通过poemId从后端获取诗
-    // ...
     // 传递给[this.poem]
-	wx.cloud.callFunction({
-		name:'getPoemUseId',
-		data:{
-			poemid:poemId,
-		},
-		success:function(res){
-			console.log(res.result.data);
-			this.poem=res.result.data;
-		},
-		fail:function(error) {
-			console.log("error:", error);
-		}
-	})
+    wx.cloud.callFunction({
+      name: "getPoemUseId",
+      data: {
+        poemid: poemId,
+      },
+      success: function (res) {
+        that.poem = res.result.data;
+      },
+      fail: function (error) {
+        console.log("error:", error);
+      },
+    });
   },
 };
 </script>

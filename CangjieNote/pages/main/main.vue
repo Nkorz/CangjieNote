@@ -70,7 +70,7 @@ export default {
       ],
     };
   },
-  onLoad() {
+  onShow() {
     let that = this;
     wx.cloud.callFunction({
       // 云函数名称
