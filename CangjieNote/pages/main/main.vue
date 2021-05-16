@@ -1,6 +1,7 @@
 <template>
   <view class="wrap">
     <!-- <poem-card :poem-id="list[0].list[0].id" :title="list[0].list[0].title" :author="list[0].list[0].author" :star="list[0].list[0].star"
+    <!-- <poem-card :poem-id="list[0].list[0].id"   :title="list[0].list[0].title" :author="list[0].list[0].author" :star="list[0].list[0].star"
       :star-num="list[0].list[0].starNum" :content="list[0].list[0].content"></poem-card> -->
     <view class="search">
       <u-search
