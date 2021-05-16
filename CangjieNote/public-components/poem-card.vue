@@ -10,9 +10,9 @@
     <u-card
       @body-click="cardClick"
       @head-click="cardClick"
-      :index="id"
-      :title="title"
-      :sub-title="author"
+      :index="poem.id"
+      :title="poem.title"
+      :sub-title="poem.author"
       margin="50rpx"
       padding="30"
       border="false"
@@ -56,68 +56,51 @@ export default {
    */
   props: {
     poem: Object,
-	thumb: {
-		type: Boolean,
-		default: true
-	},		// 若为false，则显示诗的所有字
+    thumb: {
+      type: Boolean,
+      default: true,
+    }, // 若为false，则显示诗的所有字
   },
   data() {
     return {
-		id: "",
-		title: "",
-		author: "",
-		content: [],
       star: false,
       starNum: 0,
     };
   },
-  mounted() {
-	  console.log("poem-mounted:", this.poem);
-  	if (this.poem) {
-		this.id = this.poem.id;
-		this.title = this.poem.title;
-		this.author = this.poem.author;
-		this.star = this.poem.star;
-		this.starNum = this.poem.starNum;
-		this.content = this.poem.content;
-	}
-  },
   watch: {
-	  poem(val) {
-		  console.log("poem-watch", val);
-		  this.id = val.id;
-		  this.title = val.title;
-		  this.author = val.author;
-		  this.star = val.star;
-		  this.starNum = val.starNum;
-		  this.content = val.content;
-	  }
+    poem(val) {
+      this.star = val.star;
+      this.starNum = val.starNum;
+    },
   },
   computed: {
     normalizedContent() {
-		if (!this.thumb || this.content.length === 0) {
-			return this.content;
-		}
-      let firstItem = this.content[0];
+      if (!this.poem) {
+        return [];
+      }
+      if (!this.thumb) {
+        return this.poem.content;
+      }
+      let firstItem = this.poem.content[0];
       let len = firstItem.length;
       if (len <= 12) {
-        return this.content;
+        return this.poem.content;
       }
       let result = [];
-	  this.content.forEach(sentence => {
-		  result.push(sentence.slice(0, 12) + "...");
-	  });
-	  return result;
+      this.poem.content.forEach((sentence) => {
+        result.push(sentence.slice(0, 12) + "...");
+      });
+      return result;
     },
   },
   methods: {
     cardClick(_) {
-      this.$emit("routerChange", this.id);
+      this.$emit("routerChange", this.poem.id);
     },
     starClick(_) {
       this.star ? this.starNum-- : this.starNum++;
       this.star = !this.star;
-      const poemId = this.id;
+      const poemId = this.poem.id;
       // 上传到服务器
       wx.cloud.callFunction({
         // 云函数名称

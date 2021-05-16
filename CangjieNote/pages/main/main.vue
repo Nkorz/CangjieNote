@@ -79,8 +79,7 @@ export default {
       ],
     };
   },
-  onLoad() {
-    console.log('yyy')
+  onShow() {
     let that = this;
     wx.cloud.callFunction({
       // 云函数名称
