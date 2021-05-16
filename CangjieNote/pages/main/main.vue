@@ -8,10 +8,11 @@
     </view>
     <view class="">
       <u-cell-group title-bg-color="rgb(243, 244, 246)" :title="item.groupName" v-for="(item, index) in list" :key="index">
-        <u-cell-item  class="item" title-width="0rpx" @click="toDetail()" v-for="(item1, index1) in item.list" :key="index1" :arrow="false">
+        <u-cell-item class="item" title-width="0rpx" @click="toDetail()" v-for="(item1, index1) in item.list" :key="index1"
+          :arrow="false">
           <view class="" @click="toDetail()">
-            <peom-card :peom-id="item1.id" :title="item1.title" :author="item1.author"
-              :star="item1.star" :star-num="item1.starNum" :content="item1.content"></peom-card>
+            <peom-card :peom-id="item1.id" :title="item1.title" :author="item1.author" :star="item1.star" :star-num="item1.starNum"
+              :content="item1.content"></peom-card>
           </view>
           <image slot="icon" class="u-cell-icon" :src="getIcon(item1.icon)" mode="widthFix"></image>
         </u-cell-item>
@@ -79,6 +80,23 @@
         }, ],
       };
     },
+    onLoad() {
+      let that=this
+      wx.cloud.callFunction({
+        // 云函数名称
+        name: 'poemCardView',
+        // 传给云函数的参数
+        data: {
+          size: 100,
+        },
+        success: function(res) {
+          console.log(that.title)
+          console.log(res.result.data) // 3
+          that.list[0].list=res.result.data
+        },
+        fail: console.error
+      })
+    },
     computed: {
       getIcon() {
         return (path) => {
@@ -87,7 +105,7 @@
       },
     },
     methods: {
-      toDetail () {
+      toDetail() {
         this.$u.route({
           url: '/pages/detail/detal',
           animationType: 'slide-in-bottom'
@@ -146,10 +164,10 @@
     padding: 30rpx;
   }
 
-  .item{
+  .item {
     padding: 0rpx;
   }
-  
+
   .search {
     padding: 20rpx;
   }

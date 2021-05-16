@@ -59,7 +59,11 @@ export default {
       let mid;
       try {
         mid = len / 2;
+        
         if (parseInt(mid) !== mid) {
+          console.log(this.content);
+          console.log("len:", len);
+          console.log("mid:", mid);
           throw "mid不是整数";
         }
       } catch (error) {
