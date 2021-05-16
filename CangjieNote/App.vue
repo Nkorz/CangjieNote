@@ -26,47 +26,47 @@
         traceUser: true,
       });
       /***** login *****/
-      // uni.getUserProfile({
-      //   desc: '获取授权',
-      //   success: (res) => {
-      //     console.log("uni.getUserProfile success", res);
-      //     wx.cloud.callFunction({
-      //       name: "login",
-      //       data: {
-      //         cloudID: wx.cloud.CloudID(res.cloudID)
-      //       }
-      //     }).then(res => {
-      //       console.log("call cloud func(login) success: ", res);
-      //     }).catch(err => {
-      //       console.log("call cloud func(login) fail: ", err);
-      //     });
-      //   },
-      //   fail: (err) => {
-      //     console.log("uni.getUserProfile fail", err);
-      //   }
-      // });
-      // uni.getSetting({
-      //   success: (res) => {
-      //     console.log("uni.getSetting success", res);
-      //     if (!res.authSetting['scope.userInfo']) {
-      //       uni.authorize({
-      //         scope: 'scope.userInfo',
-      //         success: (res) => {
-      //           console.log("uni.authorize success", res);
-      //           that.login();
-      //         },
-      //         fail: (err) => {
-      //           console.log("uni.authorize fail", err);
-      //         }
-      //       });
-      //     } else {
-      //       that.login();
-      //     }
-      //   },
-      //   fail: (err) => {
-      //     console.log("uni.getSetting fail", err);
-      //   }
-      // });
+      uni.getUserProfile({
+        desc: '获取授权',
+        success: (res) => {
+          console.log("uni.getUserProfile success", res);
+          wx.cloud.callFunction({
+            name: "login",
+            data: {
+              cloudID: wx.cloud.CloudID(res.cloudID)
+            }
+          }).then(res => {
+            console.log("call cloud func(login) success: ", res);
+          }).catch(err => {
+            console.log("call cloud func(login) fail: ", err);
+          });
+        },
+        fail: (err) => {
+          console.log("uni.getUserProfile fail", err);
+        }
+      });
+      uni.getSetting({
+        success: (res) => {
+          console.log("uni.getSetting success", res);
+          if (!res.authSetting['scope.userInfo']) {
+            uni.authorize({
+              scope: 'scope.userInfo',
+              success: (res) => {
+                console.log("uni.authorize success", res);
+                that.login();
+              },
+              fail: (err) => {
+                console.log("uni.authorize fail", err);
+              }
+            });
+          } else {
+            that.login();
+          }
+        },
+        fail: (err) => {
+          console.log("uni.getSetting fail", err);
+        }
+      });
     },
     methods: {
       login: () => {
