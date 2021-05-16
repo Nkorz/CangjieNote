@@ -125,6 +125,7 @@ export default {
       this.inputAlign = index == 0 ? "left" : index == 1 ? "center" : "right";
     },
     change(value) {
+      //try tapd
       // 搜索框内容变化时，会触发此事件，value值为输入框的内容
       //console.log(value);
     },
