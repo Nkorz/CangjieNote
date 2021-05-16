@@ -40,12 +40,6 @@
       </u-cell-group>
     </view>
     <view>
-      <u-button shape="square" :ripple="true" type="primary" @click="toUser"
-        >User</u-button
-      >
-      <u-button shape="square" type="primary" @click="toDetail"
-        >Detail</u-button
-      >
     </view>
     <drag-button
     	:isDock="true"
