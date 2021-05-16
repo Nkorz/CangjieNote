@@ -84,10 +84,10 @@ export default {
     let that = this;
     wx.cloud.callFunction({
       // 云函数名称
-      name: "starPoem",
+      name: "poemCardView",
       // 传给云函数的参数
       data: {
-        poemid: this.poemId,
+        size: 100,
       },
       success: function (res) {
         console.log(that.title);

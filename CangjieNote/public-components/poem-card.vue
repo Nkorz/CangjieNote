@@ -100,7 +100,7 @@ export default {
       // 上传到服务器
       wx.cloud.callFunction({
         // 云函数名称
-        name: "poemCardView",
+        name: "starPoem",
         // 传给云函数的参数
         data: {
           size: 100,
