@@ -1,24 +1,55 @@
 # api
 
 - [api](#api)
-  - [getPoemComments](#getpoemcomments)
+  - [gameInit](#gameinit)
     - [param](#param)
     - [result](#result)
-  - [comment](#comment)
+  - [getPoemComments](#getpoemcomments)
     - [param](#param-1)
     - [result](#result-1)
-  - [getPoemUseId](#getpoemuseid)
+  - [comment](#comment)
     - [param](#param-2)
     - [result](#result-2)
-  - [starPoem](#starpoem)
+  - [getPoemUseId](#getpoemuseid)
     - [param](#param-3)
     - [result](#result-3)
-  - [login](#login)
+  - [starPoem](#starpoem)
     - [param](#param-4)
     - [result](#result-4)
-  - [poemCardView](#poemcardview)
+  - [login](#login)
     - [param](#param-5)
     - [result](#result-5)
+  - [poemCardView](#poemcardview)
+    - [param](#param-6)
+    - [result](#result-6)
+
+## gameInit
+
+> 目前还没有干扰项
+
+### param
+
+```json
+{
+    sentence: "xxx", // 需要查询的字符串
+}
+```
+
+### result
+
+```json
+{
+    code: 0,
+    err: null,
+    data: [
+        {
+            ans: 0, // 答案在sentence中的坐标
+            char: "一" // 部首
+        },
+        ...
+    ] // 按照指定排序方案排序好的评论列表
+}
+```
 
 ## getPoemComments
 
