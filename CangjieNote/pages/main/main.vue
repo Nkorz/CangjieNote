@@ -285,6 +285,27 @@ export default {
       });
     },
     methods: {
+      btnClick() {
+        this.$u.route({
+          url: "/pages/user/user",
+          animationType: "slide-in-bottom",
+        });
+      	console.log('btnClick');
+      },
+      btnTouchstart() {
+      	console.log('btnTouchstart');
+      },
+      btnTouchend() {
+      	console.log('btnTouchend');
+      },
+      toDetail(id) {
+        this.$u.route({
+          url: "/pages/detail/detail",
+          animationType: "slide-in-bottom",
+          params: { id: id },
+        });
+      },
+
       // 上划加载更多
       loadMore() {
         console.log('上滑')
