@@ -1,21 +1,55 @@
 # api
 
 - [api](#api)
-  - [comment](#comment)
+  - [getPoemComments](#getpoemcomments)
     - [param](#param)
     - [result](#result)
-  - [getPoemUseId](#getpoemuseid)
+  - [comment](#comment)
     - [param](#param-1)
     - [result](#result-1)
-  - [starPoem](#starpoem)
+  - [getPoemUseId](#getpoemuseid)
     - [param](#param-2)
     - [result](#result-2)
-  - [login](#login)
+  - [starPoem](#starpoem)
     - [param](#param-3)
     - [result](#result-3)
-  - [poemCardView](#poemcardview)
+  - [login](#login)
     - [param](#param-4)
     - [result](#result-4)
+  - [poemCardView](#poemcardview)
+    - [param](#param-5)
+    - [result](#result-5)
+
+## getPoemComments
+
+### param
+
+```json
+{
+    'poem_id': "xxx", // 想要查询评论的诗词
+    'sort_by_time': true, // 布尔值，标识返回的是否按时间排序
+    'sort_by_stars': false, // 布尔值，标识返回的是否按点赞数排序
+    /*****
+     * 这里注意，如果 sort_by_time 和 sort_by_stars 同时为 true 的话
+     * 则优先按照时间排序
+     *****/
+}
+```
+
+### result
+
+```json
+{
+    code: 0,
+    err: null,
+    data: [
+        {
+            ... // comment 的对象，详见 database.md
+        },
+        ...
+    ] // 按照指定排序方案排序好的评论列表
+}
+```
 
 ## comment
 
