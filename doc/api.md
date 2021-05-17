@@ -1,27 +1,66 @@
 # api
 
 - [api](#api)
-  - [gameInit](#gameinit)
+  - [search](#search)
     - [param](#param)
     - [result](#result)
-  - [getPoemComments](#getpoemcomments)
+  - [gameInit](#gameinit)
     - [param](#param-1)
     - [result](#result-1)
-  - [comment](#comment)
+  - [getPoemComments](#getpoemcomments)
     - [param](#param-2)
     - [result](#result-2)
-  - [getPoemUseId](#getpoemuseid)
+  - [comment](#comment)
     - [param](#param-3)
     - [result](#result-3)
-  - [starPoem](#starpoem)
+  - [getPoemUseId](#getpoemuseid)
     - [param](#param-4)
     - [result](#result-4)
-  - [login](#login)
+  - [starPoem](#starpoem)
     - [param](#param-5)
     - [result](#result-5)
-  - [poemCardView](#poemcardview)
+  - [login](#login)
     - [param](#param-6)
     - [result](#result-6)
+  - [poemCardView](#poemcardview)
+    - [param](#param-7)
+    - [result](#result-7)
+
+## search
+
+### param
+
+```json
+{
+    'key': "xxx", // 想要查询的字符串
+    'size': 10 // 查询的条目上限，最大为50
+}
+```
+
+### result
+```json
+{
+    code: 0,
+    err: null,
+    data: [
+        {
+            '_id': "xxx", // 诗词的id
+            'content': ["xxx", ...], // 诗词的内容
+            'flag': "xxx", // flag
+            'title': "xxx", // title
+            'stars': 0, // 点赞数
+            'array': [
+                {
+                    'k': "xxx", // additional data中的key
+                    'v': "xxx"  // additional data中的value
+                },
+                ...
+            ] // 与 additional_data 属性个数一致长度的数组
+        },
+        ...
+    ] // 查询条目个数的数组
+}
+```
 
 ## gameInit
 
