@@ -1,15 +1,67 @@
 # api
 
 - [api](#api)
-  - [starPoem](#starpoem)
+  - [comment](#comment)
     - [param](#param)
     - [result](#result)
-  - [login](#login)
+  - [getPoemUseId](#getpoemuseid)
     - [param](#param-1)
     - [result](#result-1)
-  - [poemCardView](#poemcardview)
+  - [starPoem](#starpoem)
     - [param](#param-2)
     - [result](#result-2)
+  - [login](#login)
+    - [param](#param-3)
+    - [result](#result-3)
+  - [poemCardView](#poemcardview)
+    - [param](#param-4)
+    - [result](#result-4)
+
+## comment
+
+### param
+
+```json
+{
+    'poemid': "xxx",  // 想要评论的诗词 id
+    'comment': "xxx", // 评论内容
+}
+```
+
+### result
+
+```json
+{
+    code: 0, // 请求成功为0，反之则为负数
+    err: null, // 若请求有误则返回错误的字符串，反之则为null
+    data: {
+      id: new_id, // 插入的评论的 _id
+      time: time // 插入评论的时间
+    }
+}
+```
+
+## getPoemUseId
+
+### param
+
+```json
+{
+    'poemid': "xxx" // 想要获取信息的诗词 id
+}
+```
+
+### result
+
+```json
+{
+    code: 0, // 请求成功为0，反之则为负数
+    err: null, // 若请求有误则返回错误的字符串，反之则为null
+    data: {
+        ...
+    } // poem 的相关信息
+}
+```
 
 ## starPoem
 

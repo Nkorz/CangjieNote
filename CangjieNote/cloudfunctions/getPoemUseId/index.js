@@ -26,7 +26,15 @@ exports.main = async (event, context) => {
                        "_id": _.eq(poemid)
                      })
                      .get();
-  poem = poem.data[0];
+  poem = poem.data;
+  if (poem.length == 0) {
+    return {
+      code: -2,
+      err: "No such poem!",
+      data: null
+    };
+  }
+  poem = poem[0];
   // 标识用户是否收藏
   var res = await db.collection("Users")
                     .where({
