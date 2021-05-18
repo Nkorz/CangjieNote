@@ -1,30 +1,51 @@
 # api
 
 - [api](#api)
-  - [search](#search)
+  - [getOpenID](#getopenid)
     - [param](#param)
     - [result](#result)
-  - [gameInit](#gameinit)
+  - [search](#search)
     - [param](#param-1)
     - [result](#result-1)
-  - [getPoemComments](#getpoemcomments)
+  - [gameInit](#gameinit)
     - [param](#param-2)
     - [result](#result-2)
-  - [comment](#comment)
+  - [getPoemComments](#getpoemcomments)
     - [param](#param-3)
     - [result](#result-3)
-  - [getPoemUseId](#getpoemuseid)
+  - [comment](#comment)
     - [param](#param-4)
     - [result](#result-4)
-  - [starPoem](#starpoem)
+  - [getPoemUseId](#getpoemuseid)
     - [param](#param-5)
     - [result](#result-5)
-  - [login](#login)
+  - [starPoem](#starpoem)
     - [param](#param-6)
     - [result](#result-6)
-  - [poemCardView](#poemcardview)
+  - [login](#login)
     - [param](#param-7)
     - [result](#result-7)
+  - [poemCardView](#poemcardview)
+    - [param](#param-8)
+    - [result](#result-8)
+
+## getOpenID
+
+### param
+
+```json
+{ }
+```
+
+### result
+
+```json
+{
+    openid: "xxx",
+    appid: "xxx",
+    unionid: "xxx"
+}
+```
 
 ## search
 
