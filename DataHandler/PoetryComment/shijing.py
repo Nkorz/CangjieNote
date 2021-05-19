@@ -33,6 +33,7 @@ for chapter in typeconts:
                     continue
         json_dicts.append({
             "title": title,
+            "poem_id": "",
             "fanyi": fanyi,
             "shangxi": shangxi
         })
