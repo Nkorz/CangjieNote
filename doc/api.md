@@ -244,18 +244,13 @@
 ### param
 
 ```json
-{
-    'cloudID': wx.cloud.CloudID(res.cloudID), // res 为 wx.getUserInfo 的返回值
-}
+{}
 ```
 
 ### result
 
 ```json
 {
-    userInfo: {
-        ... // wx 的用户信息
-    },
     openid: "xxx", // openid
     appid: "xxx", // appis
     unionid: "xxx", // unionid
