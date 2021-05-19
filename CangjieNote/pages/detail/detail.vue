@@ -2,7 +2,7 @@
   <view class="">
     <poem-card :poem="poem" :thumb="false"></poem-card>
     <u-line></u-line>
-    <comment></comment>
+    <!-- <comment></comment> -->
   </view>
 </template>
  
