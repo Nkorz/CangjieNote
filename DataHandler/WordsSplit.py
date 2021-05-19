@@ -19,9 +19,13 @@ if not os.path.exists(tgt_dir_path):
 with open(src_path, "r") as src_file:
     lines = src_file.readlines()
     json_arr = []
+    exists = set()
     for _id, line in enumerate(lines):
         parts = line.strip().split("\t")
         char = parts[0]
+        if char in exists: 
+            continue
+        exists.add(char)
         radicals = [parts[i].split(" ") for i in range(1, len(parts))]
         json_arr.append({
             ### 不设置 _id 交给小程序自动设置
