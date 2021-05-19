@@ -13,7 +13,7 @@ cloud.init({
 
 const db = cloud.database();
 const _ = db.command;
-const $ = db.aggregate;
+const $ = _.aggregate;
 const MAX_NUM = 50;
 
 // 云函数入口函数
