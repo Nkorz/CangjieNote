@@ -1,33 +1,64 @@
 # api
 
 - [api](#api)
-  - [getOpenID](#getopenid)
+  - [getPoetryComments](#getpoetrycomments)
     - [param](#param)
     - [result](#result)
-  - [search](#search)
+  - [getOpenID](#getopenid)
     - [param](#param-1)
     - [result](#result-1)
-  - [gameInit](#gameinit)
+  - [search](#search)
     - [param](#param-2)
     - [result](#result-2)
-  - [getPoemComments](#getpoemcomments)
+  - [gameInit](#gameinit)
     - [param](#param-3)
     - [result](#result-3)
-  - [comment](#comment)
+  - [getPoemComments](#getpoemcomments)
     - [param](#param-4)
     - [result](#result-4)
-  - [getPoemUseId](#getpoemuseid)
+  - [comment](#comment)
     - [param](#param-5)
     - [result](#result-5)
-  - [starPoem](#starpoem)
+  - [getPoemUseId](#getpoemuseid)
     - [param](#param-6)
     - [result](#result-6)
-  - [login](#login)
+  - [starPoem](#starpoem)
     - [param](#param-7)
     - [result](#result-7)
-  - [poemCardView](#poemcardview)
+  - [login](#login)
     - [param](#param-8)
     - [result](#result-8)
+  - [poemCardView](#poemcardview)
+    - [param](#param-9)
+    - [result](#result-9)
+
+## getPoetryComments
+
+> 获取诗词的注释
+> 目前的注释还比较恶心，可能需要前端自行处理一下。。。
+
+### param
+
+```json
+{
+    'poemid': "xxx" // 诗词的id
+}
+```
+
+### result
+
+```json
+{
+    'code': 0,
+    'err': null,
+    'data': {
+        '_id': "xxx", // 唯一标识
+        'poem_id': "xxx", // 对应的诗词id
+        'fanyi': ["xxx", ...], // 可能有一条或者多条翻译
+        'shangxi': ["xxx", ...], // 可能有一条或者多条赏析
+    }
+}
+```
 
 ## getOpenID
 

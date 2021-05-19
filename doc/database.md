@@ -6,6 +6,7 @@
   - [Comments](#comments)
   - [Users](#users)
   - [WordsSplit](#wordssplit)
+  - [PoetryComments](#poetrycomments)
 
 ## Poetry
 
@@ -79,5 +80,18 @@
         ["部首1", ...], // 每一个子列表都是一个可行的拆字方案
         ...
     ]
+}
+```
+
+## PoetryComments
+
+> 诗词的注释
+
+```json
+{
+    '_id': "xxx", // 唯一标识
+    'poem_id': "xxx", // 对应的诗词id
+    'fanyi': ["xxx", ...], // 可能有一条或者多条翻译
+    'shangxi': ["xxx", ...], // 可能有一条或者多条赏析
 }
 ```

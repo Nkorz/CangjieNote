@@ -22,12 +22,17 @@ const randIndex = (length) => {
 // 云函数入口函数
 exports.main = async (event, context) => {
   const sentence = event.sentence;
+  var s = [];
+  for (var i = 0; i < sentence.length; ++i) {
+    s.push(sentence[i]);
+  }
   // 获取所有字的信息
   var res = await db.collection("WordsSplit")
                     .where({
-                      characters: _.in(sentence)
+                      character: _.in(s)
                     })
                     .get();
+  res = res.data;
   if (res.length == 0) {
     return {
       code: -1,
@@ -37,16 +42,33 @@ exports.main = async (event, context) => {
   }
   
   var characters = [];
-  res.forEach((r) => {
-    const ans_index = sentence.indexOf(r.character);
+  for (var i = 0; i < s.length; ++i) {
+    var char_idx = 0;
+    for (; char_idx < res.length; ++char_idx) {
+      if (res[char_idx].character == s[i]) break;
+    } 
+    if (char_idx == res.length) continue;
+    var r = res[char_idx];
     const radical_index = randIndex(r.radicals.length);
     r.radicals[radical_index].forEach((a) => {
       characters.push({
-        ans: ans_index,
+        ans: i,
         char: a
       });
     });
-  });
+  }
+  // res.forEach((r) => {
+  //   const ans_index = s.indexOf(r.character);
+  //   const radical_index = randIndex(r.radicals.length);
+  //   r.radicals[radical_index].forEach((a) => {
+  //     characters.push({
+  //       ans: ans_index,
+  //       char: a
+  //     });
+  //   });
+  //   // 防止被重复录入
+  //   s[ans_index] = -1;
+  // });
 
   return {
     code: 0,
