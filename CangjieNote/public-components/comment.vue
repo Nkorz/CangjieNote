@@ -88,7 +88,6 @@
 		methods:{
 			//获取评论列表
 			getComment(){
-
 			},
 			// 点赞
 			getLike(index) {

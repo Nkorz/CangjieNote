@@ -2,7 +2,6 @@
   <view class="">
     <poem-card :poem="poem" :thumb="false"></poem-card>
     <u-line></u-line>
-    <!-- <comment></comment> -->
   </view>
 </template>
  
@@ -97,6 +96,12 @@ export default {
     minButtonChange(index) {
       this.midButton = !index;
     },
+	openGame(){
+		this.$u.route({
+		  url: "/pages/game/game",
+		  animationType: "slide-in-bottom",
+		});
+	}
   },
   onLoad(options) {
     let poemId = options.id;

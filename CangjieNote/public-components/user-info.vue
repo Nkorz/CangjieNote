@@ -1,14 +1,21 @@
 <template>
 	<view>
-		<view class="u-flex user-box u-p-l-30 u-p-r-20 u-p-b-30">
+		<view  v-if="!userInfo">
+			<u-button @click="profile">授权登录</u-button>
+		</view>
+		<view class="u-flex user-box u-p-l-30 u-p-r-20 u-p-b-30"  v-else>
 			<view class="u-m-r-10">
-				<u-avatar :src="pic" size="140"></u-avatar>
+				<u-avatar :src="userInfo.avatarUrl" size="140"></u-avatar>
 			</view>
 			<view class="u-flex-1">
-				<view class="u-font-18 u-p-b-20">未登录</view>
+				<view class="u-font-18 u-p-b-20">{{userInfo.nickName}}</view>
 				<view class="u-font-14 u-tips-color"></view>
 			</view>
+			<view>
+				<u-button @click="loginOut">退出登录</u-button>
+			</view>
 		</view>
+		
 	</view>
 </template>
 
@@ -16,15 +23,38 @@
 	export default {
 		data() {
 			return {
-				pic:'https://uviewui.com/common/logo.png',
-				show:true
+				userInfo:''
 			}
 		},
-		onLoad() {
-			
+		mounted() {
+			let user = wx.getStorageSync('user');
+			this.userInfo = user;
 		},
 		methods: {
-			
+			profile(){
+				const app = getApp();
+				wx.getUserProfile({
+				desc: "获取你的昵称、头像、地区及性别",
+				success: res => {
+					wx.cloud.callFunction({
+						name:'getProfile',
+						data:{
+							'OPENID': app.globalData.openid,
+							'userInfo':res.userInfo
+						},
+						success:res =>{
+						},
+					});
+					let user = res.userInfo;
+					wx.setStorageSync('user',user);
+					this.userInfo = user;
+				},
+				});
+			},
+			loginOut(){
+				this.userInfo = '';
+				wx.setStorageSync('user',null);
+			}
 		}
 	}
 </script>

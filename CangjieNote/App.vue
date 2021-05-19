@@ -2,7 +2,8 @@
   export default {
     // 此处globalData为了演示其作用，不是uView框架的一部分
     globalData: {
-      username: '白居易'
+      username: '白居易',
+	  openid:''
     },
     onLoad() {},
     onLaunch() {

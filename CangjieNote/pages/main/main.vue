@@ -252,6 +252,7 @@ export default {
   import dragButton from "../../public-components/drag-button.vue";
   import poemCard from "../../public-components/poem-card.vue";
   import loadRefresh from '@/components/load-refresh/load-refresh.vue'
+  const app = getApp();
   export default {
     components: {
       dragButton,
@@ -268,7 +269,18 @@ export default {
         totalPages: 2 // 总页数
       }
     },
-    onShow() {
+	onLoad(){
+		wx.cloud.callFunction({
+				name:'login',
+				success:res =>{
+					if(res){
+						console.log(res.result);
+						app.globalData.openid = res.result.openid;
+					}
+				}
+		});
+	},
+	onShow() {
       let that = this;
       wx.cloud.callFunction({
         // 云函数名称
