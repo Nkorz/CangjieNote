@@ -1,13 +1,13 @@
  <template>
   <view class="">
-    <poem-card :poem="poem" :thumb="false"></poem-card>
+    <poem-card-game :poem="poem" :thumb="false"></poem-card-game>
     <u-line></u-line>
-    <comment></comment>
+    <!-- <comment></comment> -->
   </view>
 </template>
  
  <script>
-import poemCard from "../../public-components/poem-card.vue";
+import poemCardGame from "../../public-components/poem-card-game.vue";
 import comment from "../../public-components/comment.vue";
 export default {
   data() {
@@ -19,41 +19,6 @@ export default {
       bgColor: "#ffffff",
       borderTop: false,
       list: [
-        {
-          iconPath: "home",
-          selectedIconPath: "home-fill",
-          text: "首页",
-          count: 2,
-          isDot: true,
-          customIcon: false,
-        },
-        {
-          iconPath: "photo",
-          selectedIconPath: "photo-fill",
-          text: "放映厅",
-          customIcon: false,
-        },
-        {
-          iconPath: "/static/uview/example/min_button.png",
-          selectedIconPath: "/static/uview/example/min_button_select.png",
-          text: "发布",
-          midButton: true,
-          customIcon: false,
-        },
-        {
-          iconPath: "play-right",
-          selectedIconPath: "play-right-fill",
-          text: "直播",
-          customIcon: false,
-        },
-        {
-          iconPath: "account",
-          selectedIconPath: "account-fill",
-          text: "我的",
-          count: 23,
-          isDot: false,
-          customIcon: false,
-        },
       ],
       midButton: true,
       inactiveColor: "#909399",
@@ -62,9 +27,17 @@ export default {
   },
   components: {
     comment,
-    poemCard,
+    poemCardGame,
   },
   methods: {
+    // toGame(id) {
+    //   console.log('sjdndf')
+    //   this.$u.route({
+    //     url: "/pages/game/game",
+    //     animationType: "slide-in-bottom",
+    //     params: { id: id },
+    //   });
+    // },
     beforeSwitch(index) {
       return true;
     },

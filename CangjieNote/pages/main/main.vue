@@ -260,6 +260,7 @@ export default {
     },
     data() {
       return {
+        value:'',
         list: [
 
         ], // 数据集
@@ -285,6 +286,58 @@ export default {
       });
     },
     methods: {
+      valueChange(index) {
+        this.value = index == 0 ? "" : "天山雪莲";
+      },
+      shapeChange(index) {
+        this.shape = index == 0 ? "round" : "square";
+      },
+      clearabledChange(index) {
+        this.clearabled = index == 0 ? true : false;
+      },
+      showActionChange(index) {
+        this.showAction = index == 0 ? true : false;
+      },
+      inputAlignChange(index) {
+        this.inputAlign = index == 0 ? "left" : index == 1 ? "center" : "right";
+      },
+      change(value) {
+        // 搜索框内容变化时，会触发此事件，value值为输入框的内容
+        //console.log(value);
+      },
+      custom(value) {
+        //console.log(value);
+        this.$u.toast("输入值为：" + value);
+      },
+      search(value) {
+        console.log(value)
+        let that = this;
+        wx.cloud.callFunction({
+          // 云函数名称
+          name: "search",
+          // 传给云函数的参数
+          data: {
+            key:value,
+            size: 5,
+          },
+          success: function(res) {
+            console.log(value)
+            console.log(res.result.data.list)
+            that.list = res.result.data.list
+            that.$refs.loadRefresh.completed()
+            // console.log(res.result.data); // 3
+            
+          },
+          fail: console.error,
+        });
+        // this.$refs.uToast.show({
+        //   title: "搜索内容为：" + value,
+        //   type: "success",
+        // });
+      },
+      clear() {
+        // console.log(this.value);
+      },
       btnClick() {
         this.$u.route({
           url: "/pages/user/user",
