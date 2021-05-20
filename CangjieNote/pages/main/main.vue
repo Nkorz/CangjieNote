@@ -43,7 +43,6 @@
         name: 'login',
         success: res => {
           if (res) {
-            console.log(res.result);
             app.globalData.openid = res.result.openid;
           }
         }

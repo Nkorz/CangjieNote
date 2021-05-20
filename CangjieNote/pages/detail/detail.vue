@@ -28,59 +28,12 @@ export default {
     comment,
     poemCardGame,
   },
-  methods: {
-    // toGame(id) {
-    //   console.log('sjdndf')
-    //   this.$u.route({
-    //     url: "/pages/game/game",
-    //     animationType: "slide-in-bottom",
-    //     params: { id: id },
-    //   });
-    // },
-    beforeSwitch(index) {
-      return true;
-    },
-    showChange(index) {
-      this.show = !index;
-    },
-    bgColorChange(index) {
-      if (index == 0) {
-        this.activeColor = "#5098FF";
-        this.inactiveColor = "#909399";
-      }
-      if (index == 1) {
-        this.activeColor = "#D0D0D0";
-        this.inactiveColor = "#5A5A5A";
-      }
-      this.bgColor = ["#ffffff", "#1f1f1d"][index];
-    },
-    borderTopChange(index) {
-      this.borderTop = !index;
-    },
-    badgeChange(index) {
-      if (index == 1) {
-        this.list[0].count = 0;
-        this.list[4].count = 0;
-      } else {
-        this.list[0].count = 2;
-        this.list[4].count = 23;
-      }
-    },
-    minButtonChange(index) {
-      this.midButton = !index;
-    },
-	openGame(){
-		this.$u.route({
-		  url: "/pages/game/game",
-		  animationType: "slide-in-bottom",
-		});
-	}
-  },
   onLoad(options) {
     let poemId = options.id;
     let that = this;
     // 通过poemId从后端获取诗
     // 传递给[this.poem]
+	console.log('正在获取中，请等待');
     wx.cloud.callFunction({
       name: "getPoemUseId",
       data: {
