@@ -1,36 +1,68 @@
 # api
 
 - [api](#api)
-  - [getPoetryComments](#getpoetrycomments)
+  - [getCollection](#getcollection)
     - [param](#param)
     - [result](#result)
-  - [getOpenID](#getopenid)
+  - [getPoetryComments](#getpoetrycomments)
     - [param](#param-1)
     - [result](#result-1)
-  - [search](#search)
+  - [getOpenID](#getopenid)
     - [param](#param-2)
     - [result](#result-2)
-  - [gameInit](#gameinit)
+  - [search](#search)
     - [param](#param-3)
     - [result](#result-3)
-  - [getPoemComments](#getpoemcomments)
+  - [gameInit](#gameinit)
     - [param](#param-4)
     - [result](#result-4)
-  - [comment](#comment)
+  - [getPoemComments](#getpoemcomments)
     - [param](#param-5)
     - [result](#result-5)
-  - [getPoemUseId](#getpoemuseid)
+  - [comment](#comment)
     - [param](#param-6)
     - [result](#result-6)
-  - [starPoem](#starpoem)
+  - [getPoemUseId](#getpoemuseid)
     - [param](#param-7)
     - [result](#result-7)
-  - [login](#login)
+  - [starPoem](#starpoem)
     - [param](#param-8)
     - [result](#result-8)
-  - [poemCardView](#poemcardview)
+  - [login](#login)
     - [param](#param-9)
     - [result](#result-9)
+  - [poemCardView](#poemcardview)
+    - [param](#param-10)
+    - [result](#result-10)
+
+## getCollection
+
+### param
+
+```json
+{ }
+```
+
+### result
+
+```json
+{
+    'code': 0,
+    'err': null,
+    'data': [
+        {
+            id: "xxx", // 诗词的唯一标识
+            title: "xxx", // 诗词的标题
+            author: "xxx", // 诗词的作者，若没有则为出处
+            starNum: 0, // 诗词被点赞的次数
+            content: ["xxx", ...], // 诗词的每句
+            additional_data: {
+                ... // 额外数据
+            }
+        }
+    ]
+}
+```
 
 ## getPoetryComments
 
