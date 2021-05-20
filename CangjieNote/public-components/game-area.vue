@@ -42,6 +42,7 @@
       this.centerY = y + h / 2;
       this.w = w;
       this.h = h;
+      
     }
 
     this.x = x;
@@ -330,6 +331,8 @@
         const textHeight = this.fontSize + 10;
         this.w = textWidth;
         this.h = textHeight; // 字体区域中心点不变，左上角位移
+
+
 
         this.x = this.centerX - textWidth / 2;
         this.y = this.centerY - textHeight / 2;
