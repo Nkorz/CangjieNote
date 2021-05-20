@@ -8,7 +8,7 @@
   // 删除按钮
   let DRAG_ICON = '/static/components/canvas-drag/scale.png'; // 缩放按钮
   // 缩放按钮
-  const STROKE_COLOR = 'red';
+  const STROKE_COLOR = 'pink';
   const ROTATE_ENABLED = true;
   let isMove = false; // 标识触摸后是否有移动，用来判断是否需要增加操作历史
   // 标识触摸后是否有移动，用来判断是否需要增加操作历史
@@ -22,7 +22,7 @@
     type,
     text,
     fontSize = 20,
-    color = 'red',
+    color = 'white',
     url = null,
     rotate = 0,
     sourceId = null,
@@ -111,12 +111,12 @@
 
         if (this.type === 'text') {
           this.ctx.strokeRect(this.x, this.y, textWidth, textHeight);
-          this.ctx.drawImage(DELETE_ICON, this.x - 15, this.y - 15, 30, 30);
-          this.ctx.drawImage(DRAG_ICON, this.x + textWidth - 15, this.y + textHeight - 15, 30, 30);
+          this.ctx.drawImage(DELETE_ICON, this.x - 5, this.y - 5, 0, 0);
+          this.ctx.drawImage(DRAG_ICON, this.x + textWidth - 5, this.y + textHeight - 5, 0, 0);
         } else {
           this.ctx.strokeRect(this.x, this.y, this.w, this.h);
-          this.ctx.drawImage(DELETE_ICON, this.x - 15, this.y - 15, 30, 30);
-          this.ctx.drawImage(DRAG_ICON, this.x + this.w - 15, this.y + this.h - 15, 30, 30);
+          this.ctx.drawImage(DELETE_ICON, this.x - 5, this.y - 5, 10, 10);
+          this.ctx.drawImage(DRAG_ICON, this.x + this.w - 5, this.y + this.h - 5, 0, 0);
         }
       }
 
@@ -167,16 +167,16 @@
       // console.log(x)
       // console.log(y)
       // 删除区域左上角的坐标和区域的高度宽度
-      const delW = 30;
-      const delH = 30; // 旋转后的删除区域坐标
+      const delW = 0;
+      const delH = 0; // 旋转后的删除区域坐标
 
       const transformedDelCenter = this._rotatePoint(this.x, this.y, this.centerX, this.centerY, this.rotate);
 
       const transformDelX = transformedDelCenter[0] - delW / 2;
       const transformDelY = transformedDelCenter[1] - delH / 2; // 变换区域左上角的坐标和区域的高度宽度
 
-      const scaleW = 30;
-      const scaleH = 30;
+      const scaleW = 0;
+      const scaleH = 0;
 
       const transformedScaleCenter = this._rotatePoint(this.x + this.w, this.y + this.h, this.centerX, this.centerY,
         this.rotate); // 旋转后的变换区域坐标

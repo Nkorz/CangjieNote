@@ -1,6 +1,8 @@
 <template>
   <view>
-    <game-area :poemStr="poemStr" :charSplit="charSplit" ref="canvasRef" id="canvas-drag" :graph="graph" width="700" height="750" enableUndo="true"></game-area>
+    <view class="gameArea">
+      <game-area :poemStr="poemStr" :charSplit="charSplit" ref="canvasRef" id="canvas-drag" :graph="graph" width="700" height="750" enableUndo="true"></game-area>
+    </view>
     {{poemStr}}
     <view class="btn" @tap="onAddImage">添加图片</view>
     <view class="btn" @tap="onAddTest">添加测试图片</view>
@@ -244,6 +246,11 @@
 </script>
 
 <style>
+  .gameArea {
+    margin: 20rpx;
+    padding: 10rpx;
+    background-color: #7ab598;
+  }
   .btn {
     padding: 10rpx 20rpx;
     float: left;
