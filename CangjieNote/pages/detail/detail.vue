@@ -2,11 +2,26 @@
   <view class="">
     <poem-card-game :poem="poem" :thumb="false"></poem-card-game>
     <u-line></u-line>
-    <view class="menu" :class="{active:menuFlag}">
-      <image src="../../static/navi.svg" class="menuTrigger" @tap="clickMenu"></image>
-      <image src="../../static/home.svg" class="menuItem menuItem1" @tap="toHome"></image>
-      <image src="../../static/user.svg" class="menuItem menuItem3" @tap="toUser"></image>
+    <view class="menu" :class="{ active: menuFlag }">
+      <image
+        src="../../static/navi.svg"
+        class="menuTrigger"
+        @tap="clickMenu"
+      ></image>
+      <image
+        src="../../static/home.svg"
+        class="menuItem menuItem1"
+        @tap="toHome"
+      ></image>
+      <image
+        src="../../static/user.svg"
+        class="menuItem menuItem3"
+        @tap="toUser"
+      ></image>
     </view>
+    <p>{{ analysis.shangxi }}</p>
+    <u-line></u-line>
+    <p>{{ analysis.fanyi }}</p>
   </view>
 </template>
  
@@ -19,13 +34,13 @@ export default {
       mask: false,
       menuFlag: false,
       poem: null,
+      analysis: null,
       ok: false,
       current: 0,
       show: true,
       bgColor: "#ffffff",
       borderTop: false,
-      list: [
-      ],
+      list: [],
       midButton: true,
       inactiveColor: "#909399",
       activeColor: "#5098FF",
@@ -35,34 +50,82 @@ export default {
     comment,
     poemCardGame,
   },
-  methods:{
-    clickMenu(){
-    	this.menuFlag = !this.menuFlag;
+  methods: {
+    clickMenu() {
+      this.menuFlag = !this.menuFlag;
     },
-    toUser(){
+    toUser() {
       uni.reLaunch({
         url: "/pages/user/user",
-      })
+      });
     },
-    toHome(){
-    	uni.reLaunch({
-    	  url: "/pages/main/main",
-    	});
+    toHome() {
+      uni.reLaunch({
+        url: "/pages/main/main",
+      });
+    },
+    borderTopChange(index) {
+      this.borderTop = !index;
+    },
+    badgeChange(index) {
+      if (index == 1) {
+        this.list[0].count = 0;
+        this.list[4].count = 0;
+      } else {
+        this.list[0].count = 2;
+        this.list[4].count = 23;
+      }
+    },
+    minButtonChange(index) {
+      this.midButton = !index;
+    },
+    openGame() {
+      this.$u.route({
+        url: "/pages/game/game",
+        animationType: "slide-in-bottom",
+      });
     },
   },
   onLoad(options) {
-    let poemId = options.id;
+    let poemid = options.id;
     let that = this;
     // 通过poemId从后端获取诗
     // 传递给[this.poem]
-	console.log('正在获取中，请等待');
+    console.log("正在获取中，请等待");
+    // 通过poemId从后端获取诗和解析
+    // 传递给[this.poem]和[this.analysis]
     wx.cloud.callFunction({
       name: "getPoemUseId",
       data: {
-        poemid: poemId,
+        poemid: poemid,
       },
       success: function (res) {
         that.poem = res.result.data;
+      },
+      fail: function (error) {
+        console.log("error:", error);
+      },
+    });
+    wx.cloud.callFunction({
+      name: "getPoetryComments",
+      data: {
+        poemid: poemid,
+      },
+      success: function (res) {
+        let analysis = res.result.data;
+        let shangxi = analysis.shangxi[0];
+        shangxi = shangxi.split(/[\u3000\u25b2]/);
+        shangxi.pop();
+        shangxi.shift();
+        let tmpShangxi = [];
+        for (let i = 0; i < shangxi.length; i++) {
+          if (shangxi[i] !== "") {
+            shangxi[i] = shangxi[i].replace("\n", "");
+            tmpShangxi.push(shangxi[i]);
+          }
+        }
+        analysis.shangxi = tmpShangxi;
+        that.analysis = analysis;
       },
       fail: function (error) {
         console.log("error:", error);
@@ -73,76 +136,76 @@ export default {
 </script>
  
 <style scoped lang="scss">
-  .menu {
-    position: fixed;
-    width: 110rpx;
-    height: 110rpx;
-    bottom: 120rpx;
-    right: 44rpx;
-    border-radius: 50%;
-  }
-  
-  .menuTrigger {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 80rpx;
-    height: 80rpx;
-    background-color:rgba(102, 175, 123, 0.2);
-    border-radius: 50%;
-    padding: 20rpx;
-    cursor: pointer;
-    transition: .35s ease;
-  }
-  
-  .menuItem {
-    position: absolute;
-    width: 60rpx;
-    height: 60rpx;
-    top: 10rpx;
-    left: 10rpx;
-    padding: 20rpx;
-    border-radius: 50%;
-    background-color: rgba(133, 162, 175, 0.2);
-    border: none;
-    box-shadow: 0 0 5rpx 1rpx rgba(0, 0, 0, .05);
-    z-index: -1000;
-    opacity: 0;
-  }
-  
-  .menuItem1 {
-    transition: .35s ease;
-  }
-  
-  .menuItem2 {
-    transition: .35s ease .1s;
-  }
-  
-  .menuItem3 {
-    transition: .35s ease .2s;
-  }
-  
-  .menu.active .menuTrigger {
-    transform: rotateZ(225deg);
-    background-color: rgba(102, 175, 123, 0.3);
-  }
-  
-  .menu.active .menuItem1 {
-    top: -106rpx;
-    left: -120rpx;
-    opacity: 1;
-  }
-  
-  .menu.active .menuItem2 {
-    top: 10rpx;
-    left: -164rpx;
-    opacity: 1;
-  }
-  
-  .menu.active .menuItem3 {
-    top: 126rpx;
-    left: -120rpx;
-    opacity: 1;
-  }
+.menu {
+  position: fixed;
+  width: 110rpx;
+  height: 110rpx;
+  bottom: 120rpx;
+  right: 44rpx;
+  border-radius: 50%;
+}
+
+.menuTrigger {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80rpx;
+  height: 80rpx;
+  background-color: rgba(102, 175, 123, 0.2);
+  border-radius: 50%;
+  padding: 20rpx;
+  cursor: pointer;
+  transition: 0.35s ease;
+}
+
+.menuItem {
+  position: absolute;
+  width: 60rpx;
+  height: 60rpx;
+  top: 10rpx;
+  left: 10rpx;
+  padding: 20rpx;
+  border-radius: 50%;
+  background-color: rgba(133, 162, 175, 0.2);
+  border: none;
+  box-shadow: 0 0 5rpx 1rpx rgba(0, 0, 0, 0.05);
+  z-index: -1000;
+  opacity: 0;
+}
+
+.menuItem1 {
+  transition: 0.35s ease;
+}
+
+.menuItem2 {
+  transition: 0.35s ease 0.1s;
+}
+
+.menuItem3 {
+  transition: 0.35s ease 0.2s;
+}
+
+.menu.active .menuTrigger {
+  transform: rotateZ(225deg);
+  background-color: rgba(102, 175, 123, 0.3);
+}
+
+.menu.active .menuItem1 {
+  top: -106rpx;
+  left: -120rpx;
+  opacity: 1;
+}
+
+.menu.active .menuItem2 {
+  top: 10rpx;
+  left: -164rpx;
+  opacity: 1;
+}
+
+.menu.active .menuItem3 {
+  top: 126rpx;
+  left: -120rpx;
+  opacity: 1;
+}
 </style>
  
