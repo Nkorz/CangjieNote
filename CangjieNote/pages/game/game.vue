@@ -51,6 +51,7 @@
           sentence: shuffleStr,
         },
         success: function(res) {
+          that.poemStr = shuffleStr;
           that.charSplit.list = res.result.data;
           console.log(that.charSplit.list)
           that.graph.str = shuffleStr;
