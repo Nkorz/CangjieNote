@@ -26,7 +26,9 @@
     url = null,
     rotate = 0,
     sourceId = null,
-    selected = true
+    ansId = -1,
+    selected = true,
+    ansCount = -1
   }, canvas, factor) {
     if (type === 'text') {
       canvas.setFontSize(fontSize);
@@ -42,7 +44,6 @@
       this.centerY = y + h / 2;
       this.w = w;
       this.h = h;
-      
     }
 
     this.x = x;
@@ -54,6 +55,8 @@
       [this.x + this.w, this.y + this.h],
       [this.x, this.y + this.h]
     ];
+    this.ansId = ansId;
+    this.ansCount = ansCount;
     this.fileUrl = url;
     this.text = text;
     this.fontSize = fontSize;
@@ -95,9 +98,9 @@
       this.ctx.translate(-this.centerX, -this.centerY); // 渲染元素
 
       if (this.type === 'text') {
-        console.log(this.poemStr)
-        console.log(this.centerX)
-        console.log(this.centerY)
+        // console.log(this)
+        // console.log(this.centerX)
+        // console.log(this.centerY)
         this.ctx.fillText(this.text, this.centerX, this.centerY);
       } else if (this.type === 'image') {
         this.ctx.drawImage(this.fileUrl, this.x, this.y, this.w, this.h);
@@ -332,8 +335,6 @@
         this.w = textWidth;
         this.h = textHeight; // 字体区域中心点不变，左上角位移
 
-
-
         this.x = this.centerX - textWidth / 2;
         this.y = this.centerY - textHeight / 2;
       }
@@ -349,7 +350,8 @@
     data() {
       return {
         bgImage: '',
-        history: []
+        history: [],
+        str: '',
       };
     },
 
@@ -358,7 +360,7 @@
       poemStr:'',
       charSplit:{
         type: Object,
-        default: () => ({})
+        default: () => ([])
       },
       graph: {
         type: Object,
@@ -749,14 +751,17 @@
         if (JSON.stringify(n) === '{}') return;
         console.log('n')
         console.log(n)
+        this.str = n.str;
+        this.charSplit = n.charSplit;
          for (let i=0;i<n.list.length;++i){
            this.drawArr.push(new dragGraph(Object.assign({
              x: 30,
-             y: 30
+             y: 30,
            }, n.list[i]), this.ctx, this.factor));
          }
         this.draw(); // 参数有变化时记录历史
         console.log('onGraphChange')
+        console.log(this.drawArr)
         
         this.recordHistory();
       },
@@ -812,6 +817,8 @@
           this.ctx.fillRect(0, 0, this.toPx(this.width), this.toPx(this.height));
           this.ctx.restore();
         }
+        
+        this.collideCheck();
 
         this.drawArr.forEach(item => {
           item.paint();
@@ -1042,6 +1049,45 @@
         this.initBg(); // 重置绘画背景
 
         this.initHistory(); // 清空历史记录
+      },
+      
+      collideCheck() {
+        for (var i = 0; i < this.drawArr.length - 1; ++i) {
+          var item = this.drawArr[i];
+          var tempArr = [item];
+          var indexArr = [i];
+          for (var j = i + 1; j < this.drawArr.length; ++j) {
+            var temp = this.drawArr[j];
+            if(dragGraph.prototype.insidePolygon(item.square, [
+              temp.centerX, temp.centerY
+            ])) {
+              tempArr.push(temp);
+              indexArr.push(j);
+            }
+          }
+          // 判断是否一致
+          var flag = false;
+          var _id = tempArr[0].ansId;
+          if (_id != -1 && tempArr.length == item.ansCount) {
+            for (var k = 1; k < tempArr.length; ++k) {
+              flag = true;
+              var temp = tempArr[k];
+              if (_id != temp.ansId) {
+                flag = false;
+                break;
+              }
+            }
+          }
+          if (flag) {
+            console.log(indexArr)
+            for (var k = indexArr.length - 1; k > 0; --k) {
+              this.drawArr.splice(indexArr[k], 1);
+            }
+            this.drawArr[i].text = this.str[item.ansId];
+            this.drawArr[i].ansId = -1;
+            console.log(this.str[item.ansId]);
+          }
+        }
       }
 
     }

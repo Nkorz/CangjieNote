@@ -53,7 +53,8 @@ exports.main = async (event, context) => {
     r.radicals[radical_index].forEach((a) => {
       characters.push({
         ans: i,
-        char: a
+        char: a,
+        count: r.radicals[radical_index].length
       });
     });
   }

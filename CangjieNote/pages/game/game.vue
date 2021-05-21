@@ -53,11 +53,17 @@
         success: function(res) {
           that.charSplit.list = res.result.data;
           console.log(that.charSplit.list)
+          that.graph.str = shuffleStr;
+          that.graph.charSplit = res.result.data;
           for (let i=0;i<that.charSplit.list.length;++i){
             let x = 275*Math.random()
             let y = 280*Math.random()
             // console.log(that.charSplit.list[i].char)
-            that.onAddText(that.charSplit.list[i].char,x,y)
+            that.onAddText(that.charSplit.list[i].char,
+                           that.charSplit.list[i].ans,
+                           that.charSplit.list[i].count,
+                           x,
+                           y)
           }
           // that.poemId = res.result.data;
         },
@@ -142,12 +148,14 @@
       /**
        * 添加文本
        */
-      onAddText(char,ranX,ranY) {
+      onAddText(char,aId,aCount,ranX,ranY) {
         this.graph.list.push({
           type: 'text',
           text: char,
           x:ranX,
-          y:ranY
+          y:ranY,
+          ansId: aId,
+          ansCount: aCount
         });
         // this.setData({
         //   graph: {
