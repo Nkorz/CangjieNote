@@ -3,8 +3,10 @@
 		<user-info @showCollections="isShow"></user-info>
 		<u-line></u-line>
 		<!-- 数据列表 -->
-		<view v-for="(item,index) in userCollections" :key="index">
-		  <user-poem-card :poem="item" :thumb="true" @routerChange="toDetail"></user-poem-card>
+		<view v-if="isShowCard">
+			<view v-for="(item,index) in userCollections" :key="index">
+			  <user-poem-card :poem="item" :thumb="true" @routerChange="toDetail"></user-poem-card>
+			</view>
 		</view>
     <view class="menu" :class="{active:menuFlag}">
       <image src="../../static/navi.svg" class="menuTrigger" @tap="clickMenu"></image>
@@ -29,6 +31,15 @@ export default{
 	components:{
 		userInfo,
 		userPoemCard
+	},
+	watch: {
+		isShow:{
+			immediate:true,
+			handler:function(val){
+				this.isShowCard = val;
+				console.log(val);
+			}
+		}
 	},
 	onShow() {
 		let that = this;
@@ -72,7 +83,7 @@ export default{
     	});
     },
 		isShow(data){
-			this.isShowCard = true;
+			this.isShowCard = data;
 		},
 		toDetail(id) {
 		  this.$u.route({
