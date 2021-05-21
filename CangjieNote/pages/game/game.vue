@@ -1,6 +1,8 @@
 <template>
   <view>
-    <game :poemStr="poemStr" :charSplit="charSplit" ref="canvasRef" id="canvas-drag" :graph="graph" width="700" height="750" enableUndo="true"></game>
+    <view class="gameArea">
+      <game-area :poemStr="poemStr" :charSplit="charSplit" ref="canvasRef" id="canvas-drag" :graph="graph" width="700" height="750" enableUndo="true"></game-area>
+    </view>
     {{poemStr}}
     <view class="btn" @tap="onAddImage">添加图片</view>
     <view class="btn" @tap="onAddTest">添加测试图片</view>
@@ -17,7 +19,7 @@
 </template>
 
 <script>
-  import game from "../../public-components/game.vue";
+  import gameArea from "../../public-components/game-area.vue";
   export default {
     data() {
       return {
@@ -54,7 +56,7 @@
           for (let i=0;i<that.charSplit.list.length;++i){
             let x = 275*Math.random()
             let y = 280*Math.random()
-            console.log(that.charSplit.list[i].char)
+            // console.log(that.charSplit.list[i].char)
             that.onAddText(that.charSplit.list[i].char,x,y)
           }
           // that.poemId = res.result.data;
@@ -65,7 +67,7 @@
       });
     },
     components: {
-      game
+      gameArea
     },
     methods: {
       randomCharSetter(str) {
@@ -74,6 +76,10 @@
         str = str.replaceAll(',', '')
         str = str.replaceAll('！', '')
         str = str.replaceAll('？', '')
+        let strList = str.split('')
+        strList = new Set(strList)
+        str = [...strList].join('')
+        console.log(strList)
         // str=str.replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g,"");
         // console.log(str);
         return str;
@@ -240,6 +246,11 @@
 </script>
 
 <style>
+  .gameArea {
+    margin: 20rpx;
+    padding: 10rpx;
+    background-color: #7ab598;
+  }
   .btn {
     padding: 10rpx 20rpx;
     float: left;

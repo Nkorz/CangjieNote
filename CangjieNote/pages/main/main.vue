@@ -1,233 +1,8 @@
-<!-- <template>
-  <view class="wrap">
-    <view class="search">
-      <u-search
-        v-model="value"
-        @change="change"
-        @custom="custom"
-        @search="search"
-        shape="round"
-        :clearabled="clearabled"
-        :show-action="showAction"
-        :input-align="inputAlign"
-        @clear="clear"
-      ></u-search>
-    </view>
-    <view class="">
-      <u-cell-group
-        title-bg-color="rgb(243, 244, 246)"
-        :title="item.groupName"
-        v-for="(item, index) in list"
-        :key="index"
-      >
-        <u-cell-item
-          class="item"
-          title-width="0rpx"
-          v-for="(item1, index1) in item.list"
-          :key="index1"
-          :arrow="false"
-        >
-          <view class="">
-            <poem-card :poem="item1" @routerChange="toDetail"></poem-card>
-          </view>
-          <image
-            slot="icon"
-            class="u-cell-icon"
-            :src="getIcon(item1.icon)"
-            mode="widthFix"
-          ></image>
-        </u-cell-item>
-      </u-cell-group>
-    </view>
-    <view>
-    </view>
-    <drag-button
-    	:isDock="true"
-    	:existTabBar="true"
-    	@btnClick="btnClick"
-    	@btnTouchstart="btnTouchstart"
-    	@btnTouchend="btnTouchend"
-    />
-  </view>
-</template>
-
-<script>
-import poemCard from "../../public-components/poem-card.vue";
-import dragButton from "../../public-components/drag-button.vue";
-export default {
-  components: {
-    poemCard,
-    dragButton
-  },
-  data() {
-    return {
-      title: "课程首页",
-      mode: "circle",
-      text: "", // 优先级比src高
-      size: "90",
-      list: [
-        {
-          groupName: "诗歌列表",
-          list: [],
-        },
-      ],
-    };
-  },
-  onShow() {
-    let that = this;
-    wx.cloud.callFunction({
-      // 云函数名称
-      name: "poemCardView",
-      // 传给云函数的参数
-      data: {
-        size: 100,
-      },
-      success: function (res) {
-        console.log(res.result)
-        console.log(res.result.data); // 3
-        that.list[0].list = res.result.data;
-      },
-      fail: console.error,
-    });
-  },
-  computed: {
-    getIcon() {
-      return (path) => {
-        return "https://cdn.uviewui.com/uview/example/" + path + ".png";
-      };
-    },
-  },
-  methods: {
-    btnClick() {
-      this.$u.route({
-        url: "/pages/user/user",
-        animationType: "slide-in-bottom",
-      });
-    	console.log('btnClick');
-    },
-    btnTouchstart() {
-    	console.log('btnTouchstart');
-    },
-    btnTouchend() {
-    	console.log('btnTouchend');
-    },
-    toDetail(id) {
-      this.$u.route({
-        url: "/pages/detail/detail",
-        animationType: "slide-in-bottom",
-        params: { id: id },
-      });
-    },
-    valueChange(index) {
-      this.value = index == 0 ? "" : "天山雪莲";
-    },
-    shapeChange(index) {
-      this.shape = index == 0 ? "round" : "square";
-    },
-    clearabledChange(index) {
-      this.clearabled = index == 0 ? true : false;
-    },
-    showActionChange(index) {
-      this.showAction = index == 0 ? true : false;
-    },
-    inputAlignChange(index) {
-      this.inputAlign = index == 0 ? "left" : index == 1 ? "center" : "right";
-    },
-    change(value) {
-      //try tapd
-      //try tapd
-      //jhjkhjhjkjhkjhkjhk
-      // 搜索框内容变化时，会触发此事件，value值为输入框的内容
-      //console.log(value);
-    },
-    custom(value) {
-      //console.log(value);
-      this.$u.toast("输入值为：" + value);
-    },
-    search(value) {
-      this.$refs.uToast.show({
-        title: "搜索内容为：" + value,
-        type: "success",
-      });
-    },
-    clear() {
-      // console.log(this.value);
-    },
-    toUser() {
-      this.$u.route({
-        url: "/pages/user/user",
-        animationType: "slide-in-bottom",
-      });
-    },
-  },
-};
-</script>
-
-<style scoped lang="scss">
-.wrap {
-  padding: 30rpx;
-}
-
-.item {
-  padding: 0rpx;
-}
-
-.search {
-  padding: 20rpx;
-}
-
-.u-demo {
-  padding-top: 0;
-}
-
-.u-card-wrap {
-  background-color: $u-bg-color;
-  padding: 1px;
-}
-
-.u-body-item {
-  font-size: 32rpx;
-  color: #333;
-  padding: 20rpx 10rpx;
-}
-
-.u-body-item image {
-  width: 120rpx;
-  flex: 0 0 120rpx;
-  height: 120rpx;
-  border-radius: 8rpx;
-  margin-left: 12rpx;
-}
-
-.u-cell-icon {
-  height: 40rpx;
-  width: 40rpx;
-}
-
-.addclass {
-  display: inline-block;
-}
-
-.parent {
-  display: inline-block;
-}
-</style>
- -->
-
 <template>
   <view class="content">
     <view class="search">
-      <u-search
-        v-model="value"
-        @change="change"
-        @custom="custom"
-        @search="search"
-        shape="round"
-        :clearabled="clearabled"
-        :show-action="showAction"
-        :input-align="inputAlign"
-        @clear="clear"
-      ></u-search>
+      <u-search v-model="value" @change="change" @custom="custom" @search="search" shape="round" :clearabled="clearabled"
+        :show-action="showAction" :input-align="inputAlign" @clear="clear"></u-search>
     </view>
     <load-refresh ref="loadRefresh" :isRefresh="true" :currentPage="currentPage" :totalPages="totalPages" @loadMore="loadMore"
       @refresh="refresh">
@@ -238,13 +13,12 @@ export default {
         </view>
       </view>
     </load-refresh>
-    <drag-button
-    	:isDock="true"
-    	:existTabBar="true"
-    	@btnClick="btnClick"
-    	@btnTouchstart="btnTouchstart"
-    	@btnTouchend="btnTouchend"
-    />
+    <!-- <drag-button :isDock="true" :existTabBar="true" @btnClick="btnClick" @btnTouchstart="btnTouchstart" @btnTouchend="btnTouchend" /> -->
+    <view class="menu" :class="{active:menuFlag}">
+      <image src="../../static/navi.svg" class="menuTrigger" @tap="clickMenu"></image>
+      <image src="../../static/home.svg" class="menuItem menuItem1" @tap="toHome"></image>
+      <image src="../../static/user.svg" class="menuItem menuItem3" @tap="toUser"></image>
+    </view>
   </view>
 </template>
 
@@ -261,7 +35,9 @@ export default {
     },
     data() {
       return {
-        value:'',
+        mask: false,
+        menuFlag: false,
+        value: '',
         list: [
 
         ], // 数据集
@@ -269,18 +45,17 @@ export default {
         totalPages: 2 // 总页数
       }
     },
-	onLoad(){
-		wx.cloud.callFunction({
-				name:'login',
-				success:res =>{
-					if(res){
-						console.log(res.result);
-						app.globalData.openid = res.result.openid;
-					}
-				}
-		});
-	},
-	onShow() {
+    onLoad() {
+      wx.cloud.callFunction({
+        name: 'login',
+        success: res => {
+          if (res) {
+            app.globalData.openid = res.result.openid;
+          }
+        }
+      });
+    },
+    onShow() {
       let that = this;
       wx.cloud.callFunction({
         // 云函数名称
@@ -298,6 +73,21 @@ export default {
       });
     },
     methods: {
+      clickMenu(){
+      	this.menuFlag = !this.menuFlag;
+      },
+      toUser(){
+        this.$u.route({
+          url: "/pages/user/user",
+          animationType: "slide-in-bottom",
+        });
+      },
+      toHome(){
+      	this.$u.route({
+      	  url: "/pages/main/main",
+      	  animationType: "slide-in-bottom",
+      	});
+      },
       valueChange(index) {
         this.value = index == 0 ? "" : "天山雪莲";
       },
@@ -324,24 +114,30 @@ export default {
       search(value) {
         console.log(value)
         let that = this;
-        wx.cloud.callFunction({
-          // 云函数名称
-          name: "search",
-          // 传给云函数的参数
-          data: {
-            key:value,
-            size: 5,
-          },
-          success: function(res) {
-            console.log(value)
-            console.log(res.result.data.list)
-            that.list = res.result.data.list
-            that.$refs.loadRefresh.completed()
-            // console.log(res.result.data); // 3
-            
-          },
-          fail: console.error,
-        });
+        if (value === '') {
+          console.log('空')
+        } else {
+          wx.cloud.callFunction({
+            // 云函数名称
+            name: "search",
+            // 传给云函数的参数
+            data: {
+              key: value,
+              size: 5,
+            },
+            success: function(res) {
+              console.log(value)
+              console.log(res.result.data.list)
+              that.list = res.result.data.list
+              that.$refs.loadRefresh.completed()
+              // console.log(res.result.data); // 3
+
+            },
+            fail: console.error,
+          });
+
+        }
+
         // this.$refs.uToast.show({
         //   title: "搜索内容为：" + value,
         //   type: "success",
@@ -355,26 +151,28 @@ export default {
           url: "/pages/user/user",
           animationType: "slide-in-bottom",
         });
-      	console.log('btnClick');
+        console.log('btnClick');
       },
       btnTouchstart() {
-      	console.log('btnTouchstart');
+        console.log('btnTouchstart');
       },
       btnTouchend() {
-      	console.log('btnTouchend');
+        console.log('btnTouchend');
       },
       toDetail(id) {
         this.$u.route({
           url: "/pages/detail/detail",
           animationType: "slide-in-bottom",
-          params: { id: id },
+          params: {
+            id: id
+          },
         });
       },
 
       // 上划加载更多
       loadMore() {
         console.log('上滑')
-        let goUpFreshList=[]
+        let goUpFreshList = []
         wx.cloud.callFunction({
           // 云函数名称
           name: "poemCardView",
@@ -404,7 +202,7 @@ export default {
       // 下拉刷新数据列表
       refresh() {
         console.log('下拉')
-        let goDownFreshList=[]
+        let goDownFreshList = []
         wx.cloud.callFunction({
           // 云函数名称
           name: "poemCardView",
@@ -441,10 +239,82 @@ export default {
 </script>
 
 <style>
+  .menu {
+    position: fixed;
+    width: 110rpx;
+    height: 110rpx;
+    bottom: 120rpx;
+    right: 44rpx;
+    border-radius: 50%;
+  }
+
+  .menuTrigger {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80rpx;
+    height: 80rpx;
+    background-color:rgba(102, 175, 123, 0.2);
+    border-radius: 50%;
+    padding: 20rpx;
+    cursor: pointer;
+    transition: .35s ease;
+  }
+
+  .menuItem {
+    position: absolute;
+    width: 60rpx;
+    height: 60rpx;
+    top: 10rpx;
+    left: 10rpx;
+    padding: 20rpx;
+    border-radius: 50%;
+    background-color: rgba(133, 162, 175, 0.2);
+    border: none;
+    box-shadow: 0 0 5rpx 1rpx rgba(0, 0, 0, .05);
+    z-index: -1000;
+    opacity: 0;
+  }
+
+  .menuItem1 {
+    transition: .35s ease;
+  }
+
+  .menuItem2 {
+    transition: .35s ease .1s;
+  }
+
+  .menuItem3 {
+    transition: .35s ease .2s;
+  }
+
+  .menu.active .menuTrigger {
+    transform: rotateZ(225deg);
+    background-color: rgba(102, 175, 123, 0.3);
+  }
+
+  .menu.active .menuItem1 {
+    top: -106rpx;
+    left: -120rpx;
+    opacity: 1;
+  }
+
+  .menu.active .menuItem2 {
+    top: 10rpx;
+    left: -164rpx;
+    opacity: 1;
+  }
+
+  .menu.active .menuItem3 {
+    top: 126rpx;
+    left: -120rpx;
+    opacity: 1;
+  }
+
   .search {
     padding: 30rpx;
-  } 
-  
+  }
+
   .content {
     width: 100%;
     height: 100%;

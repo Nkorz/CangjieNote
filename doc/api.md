@@ -92,7 +92,7 @@
 }
 ```
 
-## getOpenID
+## getOpenID(作废)
 
 ### param
 
@@ -283,11 +283,33 @@
 
 ```json
 {
+    userInfo:"xxx", // userInfo
     openid: "xxx", // openid
-    appid: "xxx", // appis
+    appid: "xxx", // appid
     unionid: "xxx", // unionid
 }
 ```
+
+## getProfile
+
+### param
+
+```json
+{
+    'OPENID': app.globalData.openid, // 全局变量的openid
+    'userInfo':res.userInfo // getUserProfile获得的userInfo
+}
+```
+
+### result
+
+```json
+{
+    res // 原本的用户信息，待改
+}
+```
+
+
 
 ## poemCardView
 

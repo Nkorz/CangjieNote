@@ -36,7 +36,7 @@
 				wx.getUserProfile({
 				desc: "获取你的昵称、头像、地区及性别",
 				success: res => {
-					wx.cloud.callFunction({
+					wx.cloud.callFunction({ 
 						name:'getProfile',
 						data:{
 							'OPENID': app.globalData.openid,
@@ -48,7 +48,13 @@
 					let user = res.userInfo;
 					wx.setStorageSync('user',user);
 					this.userInfo = user;
+					
+					// 决定卡片是否显示
+					this.$emit('showCollections',true);
 				},
+				fail:res=>{
+					this.$emit('showCollections',false);
+				}
 				});
 			},
 			loginOut(){
@@ -62,15 +68,6 @@
 <style lang="scss">
 page{
 	background-color: #ededed;
-}
-
-.camera{
-	width: 54px;
-	height: 44px;
-	
-	&:active{
-		background-color: #ededed;
-	}
 }
 .user-box{
 	background-color: #fff;
