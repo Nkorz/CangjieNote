@@ -77,15 +77,13 @@
       	this.menuFlag = !this.menuFlag;
       },
       toUser(){
-        this.$u.route({
+        uni.reLaunch({
           url: "/pages/user/user",
-          animationType: "slide-in-bottom",
-        });
+        })
       },
       toHome(){
-      	this.$u.route({
+      	uni.reLaunch({
       	  url: "/pages/main/main",
-      	  animationType: "slide-in-bottom",
       	});
       },
       valueChange(index) {
