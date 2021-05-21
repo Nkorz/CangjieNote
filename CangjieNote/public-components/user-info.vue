@@ -60,6 +60,7 @@
 			loginOut(){
 				this.userInfo = '';
 				wx.setStorageSync('user',null);
+				this.$emit('showCollections',false);
 			}
 		}
 	}
