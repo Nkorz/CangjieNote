@@ -7,7 +7,6 @@
     <load-refresh ref="loadRefresh" :isRefresh="true" :currentPage="currentPage" :totalPages="totalPages" @loadMore="loadMore"
       @refresh="refresh">
       <view slot="content-list">
-        <!-- 数据列表 -->
         <view v-for="(item,index) in list" :key="index">
           <poem-card :poem="item" @routerChange="toDetail"></poem-card>
         </view>
