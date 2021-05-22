@@ -66,6 +66,10 @@ export default{
 			}
 		})
 	},
+  components: {
+      userInfo,
+      userPoemCard
+  },
 	methods:{
     toUser(){
       uni.reLaunch({
@@ -77,38 +81,9 @@ export default{
     	  url: "/pages/main/main",
     	});
     },
-    clickMenu(){
-    	this.menuFlag = !this.menuFlag;
-    },
-    components: {
-      userInfo,
-      userPoemCard
-    },
-    onShow() {
-      let that = this;
-      let tmp = {};
-      // 获取当前用户收藏的诗词信息
-      wx.cloud.callFunction({
-        name: 'getCollection',
-        success: res => {
-          console.log(res);
-          let collections = res.result.data;
-          // this.userCollections = res.result.data;
-          collections.forEach(function(item, index) {
-            tmp = {
-              id: item._id,
-              title: item.title,
-              author: item.flag,
-              star: true,
-              starNum: item.stars,
-              content: item.content
-            }
-            that.userCollections.push(tmp);
-          })
-          console.log(this.userCollections);
-        }
-      })
-    },
+		clickMenu(){
+			this.menuFlag = !this.menuFlag;
+		},
 		showCard(data){
 			this.isShowCard = data;
 		},
@@ -122,7 +97,6 @@ export default{
 		  });
 		},
 	}
-	
 }
 </script>
 
