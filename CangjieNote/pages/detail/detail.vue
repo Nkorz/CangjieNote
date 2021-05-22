@@ -2,6 +2,20 @@
   <view class="">
     <poem-card-game :poem="poem" :thumb="false"></poem-card-game>
     <u-line></u-line>
+    <u-subsection
+      :list="[{ name: '赏析' }, { name: '译文' }, { name: '注释' }]"
+      :current="current"
+      @change="sectionChange"
+    ></u-subsection>
+    <p class="analysis" v-if="current === 0">
+      {{ shangxi }}
+    </p>
+    <p class="analysis" v-else-if="current === 1">{{ fanyi }}</p>
+    <view class="analysis" v-else>
+      <ol v-for="(item, index) in zhushi" :key="item">
+        <li>{{ index + "." + item }}</li>
+      </ol>
+    </view>
     <view class="menu" :class="{ active: menuFlag }">
       <image
         src="../../static/navi.svg"
@@ -19,9 +33,6 @@
         @tap="toUser"
       ></image>
     </view>
-    <p>{{ analysis.shangxi }}</p>
-    <u-line></u-line>
-    <p>{{ analysis.fanyi }}</p>
   </view>
 </template>
  
@@ -31,19 +42,14 @@ import comment from "../../public-components/comment.vue";
 export default {
   data() {
     return {
-      mask: false,
       menuFlag: false,
       poem: null,
-      analysis: null,
-      ok: false,
+      shangxi: "暂无赏析",
+      fanyi: "暂无翻译",
+      zhushi: ["暂无注释"],
       current: 0,
-      show: true,
-      bgColor: "#ffffff",
       borderTop: false,
-      list: [],
       midButton: true,
-      inactiveColor: "#909399",
-      activeColor: "#5098FF",
     };
   },
   components: {
@@ -51,6 +57,9 @@ export default {
     poemCardGame,
   },
   methods: {
+    sectionChange(current) {
+      this.current = current;
+    },
     clickMenu() {
       this.menuFlag = !this.menuFlag;
     },
@@ -62,27 +71,6 @@ export default {
     toHome() {
       uni.reLaunch({
         url: "/pages/main/main",
-      });
-    },
-    borderTopChange(index) {
-      this.borderTop = !index;
-    },
-    badgeChange(index) {
-      if (index == 1) {
-        this.list[0].count = 0;
-        this.list[4].count = 0;
-      } else {
-        this.list[0].count = 2;
-        this.list[4].count = 23;
-      }
-    },
-    minButtonChange(index) {
-      this.midButton = !index;
-    },
-    openGame() {
-      this.$u.route({
-        url: "/pages/game/game",
-        animationType: "slide-in-bottom",
       });
     },
   },
@@ -113,6 +101,7 @@ export default {
       },
       success: function (res) {
         let analysis = res.result.data;
+        if (analysis === null) return;
         let shangxi = analysis.shangxi[0];
         shangxi = shangxi.split(/[\u3000\u25b2]/);
         shangxi.pop();
@@ -121,11 +110,13 @@ export default {
         for (let i = 0; i < shangxi.length; i++) {
           if (shangxi[i] !== "") {
             shangxi[i] = shangxi[i].replace("\n", "");
+            shangxi[i] = "\u3000" + shangxi[i];
             tmpShangxi.push(shangxi[i]);
           }
         }
-        analysis.shangxi = tmpShangxi;
-        that.analysis = analysis;
+        that.shangxi = tmpShangxi;
+        that.zhushi = analysis.zhushi[0];
+        that.fanyi = "\u3000" + analysis.fanyi;
       },
       fail: function (error) {
         console.log("error:", error);
@@ -206,6 +197,11 @@ export default {
   top: 126rpx;
   left: -120rpx;
   opacity: 1;
+}
+
+.analysis {
+  margin: 20rpx;
+  white-space: pre-wrap;
 }
 </style>
  
