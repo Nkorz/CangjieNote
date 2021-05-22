@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<user-info @showCollections="isShow"></user-info>
+		<user-info @showCollections="showCard"></user-info>
 		<u-line></u-line>
 		<!-- 数据列表 -->
 		<view v-if="isShowCard">
@@ -33,11 +33,10 @@ export default{
 		userPoemCard
 	},
 	watch: {
-		isShow:{
+		isShowCard:{
 			immediate:true,
 			handler:function(val){
-				this.isShowCard = val;
-				console.log(val);
+				console.log("change!",val);
 			}
 		}
 	},
@@ -99,7 +98,7 @@ export default{
         }
       })
     },
-		isShow(data){
+		showCard(data){
 			this.isShowCard = data;
 		},
 		toDetail(id) {

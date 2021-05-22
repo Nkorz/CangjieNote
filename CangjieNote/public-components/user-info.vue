@@ -29,6 +29,9 @@
 		mounted() {
 			let user = wx.getStorageSync('user');
 			this.userInfo = user;
+			if(this.userInfo){
+				this.$emit('showCollections',true);
+			}
 		},
 		methods: {
 			profile(){
