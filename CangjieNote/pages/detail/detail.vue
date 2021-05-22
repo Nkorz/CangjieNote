@@ -12,9 +12,14 @@
     </p>
     <p class="analysis" v-else-if="current === 1">{{ fanyi }}</p>
     <view class="analysis" v-else>
-      <ol v-for="(item, index) in zhushi" :key="item">
-        <li>{{ index + "." + item }}</li>
-      </ol>
+      <view v-if="zhushi.length === 1">
+        <p>{{ zhushi }}</p>
+      </view>
+      <view v-else>
+        <ol v-for="(item, index) in zhushi" :key="item">
+          <li>{{ index + "." + item }}</li>
+        </ol>
+      </view>
     </view>
     <view class="menu" :class="{ active: menuFlag }">
       <image
@@ -44,9 +49,9 @@ export default {
     return {
       menuFlag: false,
       poem: null,
-      shangxi: "暂无赏析",
-      fanyi: "暂无翻译",
-      zhushi: ["暂无注释"],
+      shangxi: "加载中...",
+      fanyi: "加载中...",
+      zhushi: ["加载中..."],
       current: 0,
       borderTop: false,
       midButton: true,
@@ -101,7 +106,12 @@ export default {
       },
       success: function (res) {
         let analysis = res.result.data;
-        if (analysis === null) return;
+        if (analysis === null) {
+          that.shangxi = "暂无赏析";
+          that.fanyi = "暂无翻译";
+          that.zhushi = ["暂无注释"];
+          return;
+        }
         let shangxi = analysis.shangxi[0];
         shangxi = shangxi.split(/[\u3000\u25b2]/);
         shangxi.pop();
