@@ -66,11 +66,21 @@ export default{
 			}
 		})
 	},
-    components: {
+  components: {
       userInfo,
       userPoemCard
-    },
+  },
 	methods:{
+    toUser(){
+      uni.reLaunch({
+        url: "/pages/user/user",
+      })
+    },
+    toHome(){
+    	uni.reLaunch({
+    	  url: "/pages/main/main",
+    	});
+    },
 		clickMenu(){
 			this.menuFlag = !this.menuFlag;
 		},

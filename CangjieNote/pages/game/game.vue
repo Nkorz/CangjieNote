@@ -4,7 +4,7 @@
       <game-area :poemStr="poemStr" :charSplit="charSplit" ref="canvasRef" id="canvas-drag" :graph="graph" width="700" height="750" enableUndo="true"></game-area>
     </view>
     {{poemStr}}
-    <view class="btn" @tap="onAddImage">添加图片</view>
+<!--    <view class="btn" @tap="onAddImage">添加图片</view>
     <view class="btn" @tap="onAddTest">添加测试图片</view>
     <view class="btn" @tap="onAddText('kkk',30,30)">添加文字</view>
     <view class="btn" @tap="onExport">导出图片</view>
@@ -14,7 +14,7 @@
     <view class="btn" @tap="onExportJSON">导出模板</view>
     <view class="btn" @tap="onImport">导入默认模板</view>
     <view class="btn" @tap="onClearCanvas">清空画布</view>
-    <view class="btn" @tap="onUndo">后退</view>
+    <view class="btn" @tap="onUndo">后退</view> -->
   </view>
 </template>
 
