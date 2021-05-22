@@ -7,9 +7,15 @@
 				<!-- <view class="fc-content">
 					{{cardDatas[getIndex(index)].title}}
 				</view> -->
-        <view class="poem-content" v-for="item in charList">
-          {{item}}
+        <view class="poem-content">
+          <view class="poem-char" v-for="item in charList">
+            <text :style="{
+							fontSize: 40 + 'rpx',
+							color: black
+						}">{{item}}</text>
+          </view>
         </view>
+        
 			</view>
 		</view>
 	</view>
@@ -57,9 +63,21 @@
         if (JSON.stringify(n) === '{}') return;
         console.log('n')
         console.log(n)
-        this.charList = n[0].content
+        let strList = this.sentenceSplit(n[this.currentIndex].content[0])
+        console.log('strList')
+        console.log(strList)
+        // strList = strList.split('。')
+        // strList = strList.split('，')
+        // strList = strList.split('？')
+        // strList = strList.split('！')
+        this.charList = strList.split('')
 
       },
+      sentenceSplit(str){
+        let finStr = str.split('。')
+        return finStr[0]
+      },
+        
 			initCard() {
 				let cards = new Array();
 				for (var x = 0; x < 4 && x < this.cardDatas.length; x++) {
@@ -71,7 +89,7 @@
 						// color:  this.cardDatas[x].color==undefined?'#FFFFFF':this.cardDatas[x].color,
 						transitionTime: 0.3 + (0.03 * x),
 						zIndex: 4 - x,
-						rotate: 1 * (x),
+						rotate: 0 * (x),
 					})
 				}
         console.log(this.cardDatas)
@@ -150,7 +168,7 @@
 						this.cards[i].opacity = 1;
 						this.cards[i].transitionTime = 0.3 + (0.03 * x);
 						this.cards[i].zIndex = 4 - x;
-						this.cards[i].rotate = 1 * (x);
+						this.cards[i].rotate = 0 * (x);
 					}
 
 					this.disTagV = 1;
@@ -161,7 +179,8 @@
           }
           console.log(this.cardDatas.length)
 					console.log(this.currentIndex)
-          this.charList = this.cardDatas[this.currentIndex].content
+          // sentenceSplit(n[this.currentIndex].content[0])
+          this.charList = this.sentenceSplit(this.cardDatas[this.currentIndex].content[0]).split('')
 				} else {
 					item_0.translateX = 0;
 					item_0.translateY = 0;
@@ -175,8 +194,22 @@
 </script>
 
 <style lang="scss">
+  
   .poem-content{
+    float: right;
+    margin: 30rpx;
+  }
+  
+  .poem-zi{
+    font-size: 40;
+  }
+  
+  .poem-char{
     flex-direction:column;
+    width: 80rpx;
+    // background-color: pink;
+    font-size: 40;
+    margin: 10rpx;
   }
   
 	.fc-main {
