@@ -49,6 +49,7 @@ export default{
 			success:res=>{
 				console.log(res);
 				let collections = res.result.data;
+				that.userCollections = [];
 				// this.userCollections = res.result.data;
 				collections.forEach(function(item,index){
 					tmp = {
