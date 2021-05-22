@@ -106,6 +106,7 @@ export default {
       },
       success: function (res) {
         let analysis = res.result.data;
+        console.log(analysis);
         if (analysis === null) {
           that.shangxi = "暂无赏析";
           that.fanyi = "暂无翻译";
@@ -127,6 +128,12 @@ export default {
         that.shangxi = tmpShangxi;
         that.zhushi = analysis.zhushi[0];
         that.fanyi = "\u3000" + analysis.fanyi;
+        if (analysis.zhushi.length === 0) {
+          that.zhushi = ["暂无注释"];
+        }
+        if (analysis.fanyi.length === 0) {
+          that.fanyi = "暂无翻译";
+        }
       },
       fail: function (error) {
         console.log("error:", error);
