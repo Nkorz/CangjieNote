@@ -267,7 +267,7 @@
   }
 
   .fc-main {
-    padding-top: 70rpx;
+    padding-top: 50rpx;
     width: 100%;
     height: 100%;
     // background: #55aaff;
