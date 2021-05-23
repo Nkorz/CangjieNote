@@ -93,8 +93,17 @@
 
       },
       sentenceSplit(str) {
-        let finStr = str.split('。')
-        return finStr[0]
+        console.log(str)
+        let finStr = str.replace(new RegExp("！","gm"),"。") 
+        finStr = finStr.replace(new RegExp("？","gm"),"。") 
+        console.log(finStr)
+        finStr= finStr.split('。')
+        let sentence = finStr[0].split('，')
+        let sentenceStr = finStr[0]
+        if(sentence.length>=3){
+          sentenceStr = sentence[0]+'，'+sentence[1]
+        }
+        return sentenceStr
       },
 
       initCard() {
