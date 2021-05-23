@@ -107,6 +107,11 @@
       },
 
       initCard() {
+        const url = 'https://636c-cloud0-backend-7gnbnkiz459f6b99-1305918868.tcb.qcloud.la/%E5%8D%8E%E6%96%87%E6%A5%B7%E4%BD%93.ttf?sign=88ed0bcf734258193636a95983753717&t=1621774028'
+        uni.loadFontFace({
+          family: 'font-test',
+          source: `url("${url}")`
+        })
         let cards = new Array();
         for (var x = 0; x < 4 && x < this.cardDatas.length; x++) {
           cards.push({
@@ -243,7 +248,7 @@
 
   .te {
     font-size: 50rpx;
-    font-family: Kaiti;
+    font-family: font-test;
   }
 
   .poem-content {
