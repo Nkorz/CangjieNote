@@ -52,8 +52,17 @@ exports.main = async (event, context) => {
     var r = res[char_idx];
     const radical_index = randIndex(r.radicals.length);
     r.radicals[radical_index].forEach((a) => {
+      var ans_list = [i];
+      for (var j = 0; j < characters.length; ++j) {
+        var c = characters[j];
+        if (c["char"] == a) {
+          ans_list = ans_list.concat(c["ans"]);
+          c["ans"].push(i);
+          characters[j] = c;
+        }
+      }
       characters.push({
-        ans: i,
+        ans: ans_list,
         char: a,
         count: r.radicals[radical_index].length
       });

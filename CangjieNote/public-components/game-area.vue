@@ -1,5 +1,6 @@
 <template>
-  <canvas canvas-id="canvas-drag" disable-scroll="true" @touchstart="start" @touchmove="move" @touchend="end" :style="'width: ' + width + 'rpx; height: ' + height + 'rpx;'"></canvas>
+  <canvas canvas-id="canvas-drag" disable-scroll="true" @touchstart="start" @touchmove="move" @touchend="end"
+    :style="'width: ' + width + 'rpx; height: ' + height + 'rpx;'"></canvas>
 </template>
 
 <script>
@@ -263,9 +264,11 @@
      * @private
      */
     _rotatePoint(x, y, centerX, centerY, degrees) {
-      let newX = (x - centerX) * Math.cos(degrees * Math.PI / 180) - (y - centerY) * Math.sin(degrees * Math.PI / 180) +
+      let newX = (x - centerX) * Math.cos(degrees * Math.PI / 180) - (y - centerY) * Math.sin(degrees * Math.PI /
+        180) +
         centerX;
-      let newY = (x - centerX) * Math.sin(degrees * Math.PI / 180) + (y - centerY) * Math.cos(degrees * Math.PI / 180) +
+      let newY = (x - centerX) * Math.sin(degrees * Math.PI / 180) + (y - centerY) * Math.cos(degrees * Math.PI /
+        180) +
         centerY;
       return [newX, newY];
     },
@@ -357,8 +360,8 @@
 
     components: {},
     props: {
-      poemStr:'',
-      charSplit:{
+      poemStr: '',
+      charSplit: {
         type: Object,
         default: () => ([])
       },
@@ -410,7 +413,7 @@
         this.ctx.setFillStyle(this.color);
         textWidth = this.ctx.measureText(this.text).width;
         textHeight = this.fontSize + 10; // 字体区域中心点不变，左上角位移
-        
+
         this.x = this.centerX - textWidth / 2;
         this.y = this.centerY - textHeight / 2;
       } // 旋转元素
@@ -753,16 +756,16 @@
         console.log(n)
         this.str = n.str;
         this.charSplit = n.charSplit;
-         for (let i=0;i<n.list.length;++i){
-           this.drawArr.push(new dragGraph(Object.assign({
-             x: 30,
-             y: 30,
-           }, n.list[i]), this.ctx, this.factor));
-         }
+        for (let i = 0; i < n.list.length; ++i) {
+          this.drawArr.push(new dragGraph(Object.assign({
+            x: 30,
+            y: 30,
+          }, n.list[i]), this.ctx, this.factor));
+        }
         this.draw(); // 参数有变化时记录历史
         console.log('onGraphChange')
         console.log(this.drawArr)
-        
+
         this.recordHistory();
       },
 
@@ -817,7 +820,7 @@
           this.ctx.fillRect(0, 0, this.toPx(this.width), this.toPx(this.height));
           this.ctx.restore();
         }
-        
+
         this.collideCheck();
 
         this.drawArr.forEach(item => {
@@ -901,7 +904,8 @@
 
           if (currentGraph.action === 'move') {
             currentGraph.centerX = this.currentGraph.centerX + (x - this.currentTouch.x);
-            currentGraph.centerY = this.currentGraph.centerY + (y - this.currentTouch.y); // 使用中心点坐标计算位移，不使用 x,y 坐标，因为会受旋转影响。
+            currentGraph.centerY = this.currentGraph.centerY + (y - this.currentTouch
+            .y); // 使用中心点坐标计算位移，不使用 x,y 坐标，因为会受旋转影响。
 
             if (currentGraph.type !== 'text') {
               currentGraph.x = currentGraph.centerX - this.currentGraph.w / 2;
@@ -958,27 +962,27 @@
               case 'image':
                 return {
                   type: 'image',
-                  url: item.fileUrl,
-                  y: item.y,
-                  x: item.x,
-                  w: item.w,
-                  h: item.h,
-                  rotate: item.rotate,
-                  sourceId: item.sourceId
+                    url: item.fileUrl,
+                    y: item.y,
+                    x: item.x,
+                    w: item.w,
+                    h: item.h,
+                    rotate: item.rotate,
+                    sourceId: item.sourceId
                 };
                 break;
 
               case 'text':
                 return {
                   type: 'text',
-                  text: item.text,
-                  color: item.color,
-                  fontSize: item.fontSize,
-                  y: item.y,
-                  x: item.x,
-                  w: item.w,
-                  h: item.h,
-                  rotate: item.rotate
+                    text: item.text,
+                    color: item.color,
+                    fontSize: item.fontSize,
+                    y: item.y,
+                    x: item.x,
+                    w: item.w,
+                    h: item.h,
+                    rotate: item.rotate
                 };
                 break;
             }
@@ -1050,7 +1054,13 @@
 
         this.initHistory(); // 清空历史记录
       },
-      
+
+      intersection(a, b) {
+        return a.filter(function(v) {
+          return b.indexOf(v) > -1
+        });
+      },
+
       collideCheck() {
         for (var i = 0; i < this.drawArr.length - 1; ++i) {
           var item = this.drawArr[i];
@@ -1058,21 +1068,23 @@
           var indexArr = [i];
           for (var j = i + 1; j < this.drawArr.length; ++j) {
             var temp = this.drawArr[j];
-            if(dragGraph.prototype.insidePolygon(item.square, [
-              temp.centerX, temp.centerY
-            ])) {
+            if (dragGraph.prototype.insidePolygon(item.square, [
+                temp.centerX, temp.centerY
+              ])) {
               tempArr.push(temp);
               indexArr.push(j);
             }
           }
           // 判断是否一致
           var flag = false;
-          var _id = tempArr[0].ansId;
-          if (_id != -1 && tempArr.length == item.ansCount) {
+          var ans_id = tempArr[0].ansId;
+          if (ans_id != -1 && tempArr.length == item.ansCount) {
             for (var k = 1; k < tempArr.length; ++k) {
               flag = true;
               var temp = tempArr[k];
-              if (_id != temp.ansId) {
+              ans_id = this.intersection(ans_id, temp.ansId);
+              console.log(ans_id);
+              if (ans_id.length == 0) {
                 flag = false;
                 break;
               }
@@ -1083,10 +1095,11 @@
             for (var k = indexArr.length - 1; k > 0; --k) {
               this.drawArr.splice(indexArr[k], 1);
             }
-            this.drawArr[i].text = this.str[item.ansId];
-            this.$emit('updatePoemStr', item.ansId);
+            var _id = ans_id[0];
+            this.drawArr[i].text = this.str[_id];
+            this.$emit('updatePoemStr', _id);
             this.drawArr[i].ansId = -1;
-            console.log(this.str[item.ansId]);
+            console.log(this.str[_id]);
           }
         }
       }
