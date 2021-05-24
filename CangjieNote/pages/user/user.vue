@@ -3,11 +3,12 @@
 		<user-info @showCollections="showCard"></user-info>
 		<u-line></u-line>
 		<!-- 数据列表 -->
-		<view v-if="isShowCard">
+		<view v-if="isShowCard && !isEmpty">
 			<view v-for="(item,index) in userCollections" :key="index">
 				<user-poem-card :poem="item" :thumb="true" @routerChange="toDetail"></user-poem-card>
 			</view>
 		</view>
+		<u-empty class="empty-icon" v-else text="暂无收藏"></u-empty>
 		<view class="menu" :class="{active:menuFlag}">
 			<image src="../../static/navi.svg" class="menuTrigger" @tap="clickMenu"></image>
 			<image src="../../static/home.svg" class="menuItem menuItem1" @tap="toHome"></image>
@@ -25,7 +26,8 @@
 				mask: false,
 				menuFlag: false,
 				isShowCard: false,
-				userCollections: []
+				userCollections: [],
+				isEmpty:false
 			}
 		},
 		components: {
@@ -53,20 +55,24 @@
 					success: res => {
 						console.log(res);
 						let collections = res.result.data;
-						that.userCollections = [];
-						// this.userCollections = res.result.data;
-						collections.forEach(function(item, index) {
-							tmp = {
-								id: item._id,
-								title: item.title,
-								author: item.flag,
-								star: true,
-								starNum: item.stars,
-								content: item.content
-							}
-							that.userCollections.push(tmp);
-						})
-						console.log(this.userCollections);
+						if(collections.length==0){
+							this.isEmpty = true;
+						}else{
+							that.userCollections = [];
+							// this.userCollections = res.result.data;
+							collections.forEach(function(item, index) {
+								tmp = {
+									id: item._id,
+									title: item.title,
+									author: item.flag,
+									star: true,
+									starNum: item.stars,
+									content: item.content
+								}
+								that.userCollections.push(tmp);
+							})
+							console.log(this.userCollections);
+						}
 					}
 				})
 			},
@@ -100,6 +106,11 @@
 </script>
 
 <style>
+	.empty-icon{
+		display: flex;
+		margin-top: 100rpx;
+		justify-content: center;
+	}
 	.menu {
 		position: fixed;
 		width: 110rpx;

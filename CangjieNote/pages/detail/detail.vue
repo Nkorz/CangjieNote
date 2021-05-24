@@ -4,16 +4,16 @@
 		<u-line></u-line>
 		<u-subsection :list="[{ name: '赏析' }, { name: '译文' }, { name: '注释' }]" :current="current" :animation="true"
 			bgColor="#FFFFFF" active-color="#8C2E2E" @change="sectionChange"></u-subsection>
-		<view class="analysis" v-if="current === 0 && !isEmpty">
-			<p>{{ shangxi }}</p>
-		</view>
-		<u-empty class="empty-icon" v-else-if="current === 0 && isEmpty" text="暂无赏析"></u-empty>
-		<u-empty class="empty-icon" v-else-if="current === 1 && isEmpty" text="暂无翻译"></u-empty>
-		<view class="analysis" v-else-if="current === 1 && !isEmpty">
-			<p>{{ fanyi }}</p>
-		</view>
-		<u-empty class="empty-icon" v-else-if="current === 2 && isEmpty" text="暂无注释"></u-empty>
-		<view class="analysis" v-else>
+		<u-read-more ref="uReadMore" :toggle="true" v-if="current === 0 && !isEmpty[0]">
+			<u-parse class="analysis" :html="shangxi" @load="parseLoaded"></u-parse>
+		</u-read-more>
+		<u-empty class="empty-icon" v-else-if="current === 0 && isEmpty[0]" text="暂无赏析"></u-empty>
+		<u-empty class="empty-icon" v-else-if="current === 1 && isEmpty[1]" text="暂无翻译"></u-empty>
+		<u-read-more ref="uReadMore" :toggle="true" v-else-if="current === 1 && !isEmpty[1]">
+			<u-parse class="analysis" :html="fanyi" @load="parseLoaded"></u-parse>
+		</u-read-more>
+		<u-empty class="empty-icon" v-else-if="current === 2 && isEmpty[2]" text="暂无注释"></u-empty>
+<!-- 		<view class="analysis" v-else>
 			<view v-if="zhushi.length === 1">
 				<p>{{ zhushi }}</p>
 			</view>
@@ -22,7 +22,10 @@
 					<li>{{ index + "." + item }}</li>
 				</ol>
 			</view>
-		</view>
+		</view> -->
+		<u-read-more ref="uReadMore" :toggle="true" text-indent="0em" v-else>
+			<u-parse class="analysis" :html="zhushi" @load="parseLoaded"></u-parse>
+		</u-read-more>
 		<view class="menu" :class="{ active: menuFlag }">
 			<image src="../../static/navi.svg" class="menuTrigger" @tap="clickMenu"></image>
 			<image src="../../static/home.svg" class="menuItem menuItem1" @tap="toHome"></image>
@@ -45,7 +48,7 @@
 				current: 0,
 				borderTop: false,
 				midButton: true,
-				isEmpty:false
+				isEmpty:[false,false,false]
 			};
 		},
 		components: {
@@ -69,6 +72,26 @@
 					url: "/pages/main/main",
 				});
 			},
+			parseLoaded(){
+				this.$nextTick(()=>{
+					console.log("parseLoaded->this:",this);
+					this.$refs.uReadMore.init();
+				})
+			},
+			splitZhuShi(){
+				let newVal = [];
+				let tmp;
+				if(this.zhushi.length>1){
+					for(let i=0;i<this.zhushi.length;i++){
+						tmp = '【'+i+'】'+this.zhushi[i]+'<br>';
+						newVal.push(tmp);
+					}
+					this.zhushi = '';
+					for(let i=0;i<newVal.length;i++){
+						this.zhushi = this.zhushi+newVal[i];
+					}
+				}
+			}
 		},
 		onLoad(options) {
 			let poemid = options.id;
@@ -97,40 +120,44 @@
 				},
 				success: function(res) {
 					let analysis = res.result.data;
-					console.log(analysis);
+					console.log("analysis"+analysis);
 					if (analysis === null) {
-						that.isEmpty = true;
-						that.shangxi = "暂无赏析";
-						that.fanyi = "暂无翻译";
-						that.zhushi = ["暂无注释"];
+						that.isEmpty[0] = true;
+						that.isEmpty[1] = true;
+						that.isEmpty[2] = true;
 						return;
 					}
 					let shangxi = analysis.shangxi[0];
 					shangxi = shangxi.split(/[\u3000\u25b2]/);
 					shangxi.pop();
 					shangxi.shift();
-					let tmpShangxi = [];
+					let tmpShangxi = "";
 					for (let i = 0; i < shangxi.length; i++) {
 						if (shangxi[i] !== "") {
 							shangxi[i] = shangxi[i].replace("\n", "");
-							shangxi[i] = "\u3000" + shangxi[i];
-							tmpShangxi.push(shangxi[i]);
+							tmpShangxi = tmpShangxi +"<p>"+shangxi[i]+"</p>";
 						}
 					}
 					that.shangxi = tmpShangxi;
 					that.zhushi = analysis.zhushi[0];
-					that.fanyi = "\u3000" + analysis.fanyi;
+					that.fanyi = analysis.fanyi;
+					if(analysis.shangxi.length === 0){
+						that.isEmpty[0] = true;
+					}
 					if (analysis.zhushi.length === 0) {
-						that.zhushi = ["暂无注释"];
+						that.isEmpty[1] = true;
+					}else{
+						that.splitZhuShi();
 					}
 					if (analysis.fanyi.length === 0) {
-						that.fanyi = "暂无翻译";
+						that.isEmpty[2] = true;
 					}
 				},
 				fail: function(error) {
 					console.log("error:", error);
 				},
 			});
+			
 		},
 	};
 </script>
