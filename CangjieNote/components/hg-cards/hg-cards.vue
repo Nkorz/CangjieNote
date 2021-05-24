@@ -90,7 +90,7 @@
         // strList = strList.split('！')
         this.charList = strList.split('')
         this.title = n[this.currentIndex].title.split('')
-        this.id = n[this.currentIndex].id
+        this.id = n[this.currentIndex].id || n[this.currentIndex]._id;
       },
       sentenceSplit(str) {
         console.log(str)
