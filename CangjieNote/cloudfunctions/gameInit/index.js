@@ -56,9 +56,9 @@ exports.main = async (event, context) => {
       for (var j = 0; j < characters.length; ++j) {
         var c = characters[j];
         if (c["char"] == a) {
+          ans_list = ans_list.concat(c["ans"]);
           c["ans"].push(i);
           characters[j] = c;
-          ans_list.push(j);
         }
       }
       characters.push({

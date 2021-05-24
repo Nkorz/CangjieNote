@@ -1083,6 +1083,7 @@
               flag = true;
               var temp = tempArr[k];
               ans_id = this.intersection(ans_id, temp.ansId);
+              console.log(ans_id);
               if (ans_id.length == 0) {
                 flag = false;
                 break;
