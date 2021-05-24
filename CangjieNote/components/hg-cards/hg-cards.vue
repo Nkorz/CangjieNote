@@ -33,7 +33,7 @@
     props: {
       cardDatas: {
         type: Array,
-        default: []
+        default: new Array()
       }
     },
     watch: {
@@ -80,6 +80,7 @@
         if (JSON.stringify(n) === '{}') return;
         console.log('n')
         console.log(n)
+        if (!n.length) return;
         let strList = this.sentenceSplit(n[this.currentIndex].content[0])
         console.log('strList')
         console.log(strList)
@@ -90,7 +91,6 @@
         this.charList = strList.split('')
         this.title = n[this.currentIndex].title.split('')
         this.id = n[this.currentIndex].id
-
       },
       sentenceSplit(str) {
         console.log(str)

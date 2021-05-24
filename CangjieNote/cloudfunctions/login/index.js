@@ -24,20 +24,21 @@ exports.main = async (event, context) => {
                       _id: _.eq(wxContext.OPENID)
                     })
                     .get();
-  if (!res.length) {
-      db.collection("Users").add({
-        data: {
-          _id: wxContext.OPENID,
-          userInfo: event.cloudID.data,
-          stars: [], // 点赞的清单
-          collection: [], // 收藏的清单
-          comments: [] // 评论的清单
-        }
-      });
-    }
+  res = res.data;
+  // if (!res.length) {
+  //     db.collection("Users").add({
+  //       data: {
+  //         _id: wxContext.OPENID,
+  //         userInfo: event.cloudID.data,
+  //         stars: [], // 点赞的清单
+  //         collection: [], // 收藏的清单
+  //         comments: [] // 评论的清单
+  //       }
+  //     });
+  //   }
 
   return {
-    userInfo: event.cloudID.data,
+    success: !!res.length,
     openid: wxContext.OPENID,
     appid: wxContext.APPID,
     unionid: wxContext.UNIONID,

@@ -16,18 +16,20 @@ const _ = db.command
 
 // 云函数入口函数
 exports.main = async (event, context) => {
+  const wxContext = cloud.getWXContext();
   
   // 如果用户从未登陆，则创建新 entry
   var res = await db.collection("Users")
                     .where({
-                      _id: _.eq(event.OPENID)
+                      _id: _.eq(wxContext.OPENID)
                     })
                     .get();
-  if (!res) {
+  res = res.data;
+  if (!res.length) {
     console.log("add");
     db.collection("Users").add({
       data: {
-        _id: event.OPENID,
+        _id: wxContext.OPENID,
         userInfo: event.userInfo,
         stars: [], // 点赞的清单
         collection: [], // 收藏的清单
@@ -36,20 +38,23 @@ exports.main = async (event, context) => {
     });
   }else{
     console.log("update");
-    db.collection("Users").doc(event.OPENID).update({
-      data: {
-        userInfo: event.userInfo,
-        stars: [], // 点赞的清单
-        collection: [], // 收藏的清单
-        comments: [] // 评论的清单
-      },
-      success:res=>{
-        console.log("更新成功");
-      },
-      faile:res=>{
-        console.log("更新失败");
-      }
-    })
+    db.collection("Users").where({
+        _id: _.eq(wxContext.OPENID)
+      })
+      .update({
+        data: {
+          userInfo: event.userInfo,
+          stars: [], // 点赞的清单
+          collection: [], // 收藏的清单
+          comments: [] // 评论的清单
+        },
+        success:res=>{
+          console.log("更新成功");
+        },
+        faile:res=>{
+          console.log("更新失败");
+        }
+      })
   }
   return {
     res

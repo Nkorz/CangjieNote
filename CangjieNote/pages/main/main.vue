@@ -72,34 +72,73 @@
       }
     },
     onLoad() {
+      let that = this;
       wx.cloud.callFunction({
         name: 'login',
+        data: {},
         success: res => {
+          console.log("login res", res);
           if (res) {
             app.globalData.openid = res.result.openid;
+            if (!res.result.success) {
+              uni.showModal({
+                title: "提示",
+                content: "请授权登陆！",
+                success: (res) => {
+                  if (res.confirm) {
+                    const app = getApp();
+                    wx.getUserProfile({
+                      desc: "获取你的昵称、头像、地区及性别",
+                      success: res => {
+                        wx.cloud.callFunction({
+                          name: 'getProfile',
+                          data: {
+                            'OPENID': app.globalData.openid,
+                            'userInfo': res.userInfo
+                          },
+                          success: res => {
+                            that.getData();
+                          },
+                        });
+                        let user = res.userInfo;
+                        wx.setStorageSync('user', user);
+                        this.userInfo = user;
+                      },
+                      fail: console.error
+                    });
+                  } else {
+                    console.log("sb");
+                  }
+                }
+              });
+            }
           }
-        }
+        },
+        fail: console.error
       });
     },
     onShow() {
-      let that = this;
-      wx.cloud.callFunction({
-        // 云函数名称
-        name: "poemCardView",
-        // 传给云函数的参数
-        data: {
-          size: 10,
-        },
-        success: function(res) {
-          // console.log(res.result)
-          console.log(res.result.data); // 3
-          that.data = res.result.data;
-        },
-        fail: console.error,
-      });
-      this.$forceUpdate();
+      this.getData();
     },
     methods: {
+      getData() {
+        let that = this;
+        wx.cloud.callFunction({
+          // 云函数名称
+          name: "poemCardView",
+          // 传给云函数的参数
+          data: {
+            size: 10,
+          },
+          success: function(res) {
+            // console.log(res.result)
+            console.log(res.result.data); // 3
+            that.data = res.result.data;
+            that.$forceUpdate();
+          },
+          fail: console.error,
+        });
+      },
       clickMenu() {
         this.menuFlag = !this.menuFlag;
       },
