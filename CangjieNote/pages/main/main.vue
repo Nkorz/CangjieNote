@@ -199,19 +199,19 @@
           fail: console.error,
         });
       },
-      clickMenu() {
-        this.menuFlag = !this.menuFlag;
-      },
-      toUser() {
-        uni.reLaunch({
-          url: "/pages/user/user",
-        })
-      },
-      toHome() {
-        uni.reLaunch({
-          url: "/pages/main/main",
-        });
-      },
+      // clickMenu() {
+      //   this.menuFlag = !this.menuFlag;
+      // },
+      // toUser() {
+      //   uni.reLaunch({
+      //     url: "/pages/user/user",
+      //   })
+      // },
+      // toHome() {
+      //   uni.reLaunch({
+      //     url: "/pages/main/main",
+      //   });
+      // },
       // 下拉刷新数据列表
       refresh() {
         console.log('下拉')
