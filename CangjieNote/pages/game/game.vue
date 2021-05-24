@@ -6,7 +6,7 @@
     </view>
     {{poemStr}}
     <br />
-    {{shuffleStrArr.join('')}}
+    <!-- {{shuffleStrArr.join('')}} -->
     <!--    <view class="btn" @tap="onAddImage">添加图片</view>
     <view class="btn" @tap="onAddTest">添加测试图片</view>
     <view class="btn" @tap="onAddText('kkk',30,30)">添加文字</view>
