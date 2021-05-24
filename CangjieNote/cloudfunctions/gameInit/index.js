@@ -22,10 +22,8 @@ const randIndex = (length) => {
 // 云函数入口函数
 exports.main = async (event, context) => {
   const sentence = event.sentence;
-  var s = [];
-  for (var i = 0; i < sentence.length; ++i) {
-    s.push(sentence[i]);
-  }
+  var s = sentence.split('');
+  
   // 获取所有字的信息
   var res = await db.collection("WordsSplit")
                     .where({
@@ -47,7 +45,10 @@ exports.main = async (event, context) => {
     for (; char_idx < res.length; ++char_idx) {
       if (res[char_idx].character == s[i]) break;
     } 
-    if (char_idx == res.length) continue;
+    if (char_idx == res.length) {
+      s[i] = -1;
+      continue;
+    }
     var r = res[char_idx];
     const radical_index = randIndex(r.radicals.length);
     r.radicals[radical_index].forEach((a) => {
@@ -74,6 +75,7 @@ exports.main = async (event, context) => {
   return {
     code: 0,
     err: null,
-    data: characters
+    data: characters,
+    shuffle_str: s 
   };
 }

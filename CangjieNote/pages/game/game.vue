@@ -1,9 +1,8 @@
 <template>
   <view>
     <view class="gameArea">
-      <game-area :poemStr="poemStr" :charSplit="charSplit" ref="canvasRef" id="canvas-drag" :graph="graph" 
-        @updatePoemStr="updatePoemStr"
-        width="700" height="750" enableUndo="true"></game-area>
+      <game-area :poemStr="poemStr" :charSplit="charSplit" ref="canvasRef" id="canvas-drag" :graph="graph"
+        @updatePoemStr="updatePoemStr" width="700" height="750" enableUndo="true"></game-area>
     </view>
     {{poemStr}}
     <br />
@@ -30,6 +29,7 @@
         count: 0,
         poemStr: '',
         mShuffleIndex: [],
+        shuffleStrArr: [],
         graph: {
           list: []
         },
@@ -52,7 +52,6 @@
       let shuffleStr = [];
       for (var i = 0; i < 4; ++i) {
         shuffleStr.push(poemStr.charAt(shuffleIndex[i]));
-        this.poemStr = this.replaceStr(this.poemStr, shuffleIndex[i], '_');
       }
       shuffleStr = shuffleStr.join('');
       this.shuffleStr = shuffleStr;
@@ -66,7 +65,21 @@
         },
         success: function(res) {
           that.charSplit.list = res.result.data;
-          console.log(that.charSplit.list)
+          that.shuffleStrArr = res.result.shuffle_str;
+          for (var i = 0; i < 4; ++i) {
+            for (var j = 0; j < that.shuffleStrArr.length;) {
+              if (that.shuffleStrArr[j] == -1) {
+                that.shuffleStrArr.splice(j, 1);
+                continue;
+              } 
+              if (that.shuffleStrArr[j] == poemStr.charAt(shuffleIndex[i])) {
+                that.poemStr = that.replaceStr(that.poemStr, shuffleIndex[i], '_');
+                break;
+              }
+              ++j;
+            }
+          }
+          console.log(res.result)
           that.graph.str = shuffleStr;
           that.graph.charSplit = res.result.data;
           for (let i = 0; i < that.charSplit.list.length; ++i) {
@@ -96,15 +109,16 @@
         return strAry.join('');
       },
       updatePoemStr(shuffleStrIndex) {
-        console.log("in updatePoemStr", shuffleStrIndex, this.mShuffleIndex[shuffleStrIndex], this.shuffleStr.charAt(shuffleStrIndex));
-        this.poemStr = this.replaceStr(this.poemStr, 
-                                       this.mShuffleIndex[shuffleStrIndex], 
-                                       this.shuffleStr.charAt(shuffleStrIndex));
+        console.log("in updatePoemStr", shuffleStrIndex, this.mShuffleIndex[shuffleStrIndex], this.shuffleStr.charAt(
+          shuffleStrIndex));
+        this.poemStr = this.replaceStr(this.poemStr,
+          this.mShuffleIndex[shuffleStrIndex],
+          this.shuffleStr.charAt(shuffleStrIndex));
         this.count++;
-        if (this.count >= 4) {
+        if (this.count >= this.shuffleStrArr.length) {
           uni.showToast({
-          title: '你真棒！',
-          duration: 2000
+            title: '你真棒！',
+            duration: 2000
           });
         }
       },
