@@ -1,10 +1,14 @@
 <template>
   <view>
     <view class="gameArea">
-      <game-area :poemStr="poemStr" :charSplit="charSplit" ref="canvasRef" id="canvas-drag" :graph="graph" width="700" height="750" enableUndo="true"></game-area>
+      <game-area :poemStr="poemStr" :charSplit="charSplit" ref="canvasRef" id="canvas-drag" :graph="graph" 
+        @updatePoemStr="updatePoemStr"
+        width="700" height="750" enableUndo="true"></game-area>
     </view>
     {{poemStr}}
-<!--    <view class="btn" @tap="onAddImage">添加图片</view>
+    <br />
+    {{shuffleStr}}
+    <!--    <view class="btn" @tap="onAddImage">添加图片</view>
     <view class="btn" @tap="onAddTest">添加测试图片</view>
     <view class="btn" @tap="onAddText('kkk',30,30)">添加文字</view>
     <view class="btn" @tap="onExport">导出图片</view>
@@ -23,9 +27,11 @@
   export default {
     data() {
       return {
+        count: 0,
         poemStr: '',
+        mShuffleIndex: [],
         graph: {
-          list:[]
+          list: []
         },
         canvasBg: "",
         shuffleStr: '',
@@ -39,8 +45,16 @@
       let poemStr = options.str;
       let that = this;
       that.poemStr = poemStr;
-      poemStr = this.randomCharSetter(poemStr);
-      let shuffleStr = this.shuffle(poemStr.split('')).join('').slice(0, 4)
+      // poemStr = this.randomCharSetter(poemStr);
+      // let shuffleStr = this.shuffle(poemStr.split('')).join('').slice(0, 4)
+      let shuffleIndex = this.shuffleIndex(poemStr).slice(0, 4);
+      this.mShuffleIndex = shuffleIndex;
+      let shuffleStr = [];
+      for (var i = 0; i < 4; ++i) {
+        shuffleStr.push(poemStr.charAt(shuffleIndex[i]));
+        this.poemStr = this.replaceStr(this.poemStr, shuffleIndex[i], '_');
+      }
+      shuffleStr = shuffleStr.join('');
       this.shuffleStr = shuffleStr;
       this.charSplit.str = shuffleStr;
       console.log(shuffleStr)
@@ -51,20 +65,19 @@
           sentence: shuffleStr,
         },
         success: function(res) {
-          that.poemStr = shuffleStr;
           that.charSplit.list = res.result.data;
           console.log(that.charSplit.list)
           that.graph.str = shuffleStr;
           that.graph.charSplit = res.result.data;
-          for (let i=0;i<that.charSplit.list.length;++i){
-            let x = 275*Math.random()
-            let y = 280*Math.random()
+          for (let i = 0; i < that.charSplit.list.length; ++i) {
+            let x = 275 * Math.random()
+            let y = 280 * Math.random()
             // console.log(that.charSplit.list[i].char)
             that.onAddText(that.charSplit.list[i].char,
-                           that.charSplit.list[i].ans,
-                           that.charSplit.list[i].count,
-                           x,
-                           y)
+              that.charSplit.list[i].ans,
+              that.charSplit.list[i].count,
+              x,
+              y)
           }
           // that.poemId = res.result.data;
         },
@@ -77,6 +90,24 @@
       gameArea
     },
     methods: {
+      replaceStr(str, index, char) {
+        const strAry = str.split('');
+        strAry[index] = char;
+        return strAry.join('');
+      },
+      updatePoemStr(shuffleStrIndex) {
+        console.log("in updatePoemStr", shuffleStrIndex, this.mShuffleIndex[shuffleStrIndex], this.shuffleStr.charAt(shuffleStrIndex));
+        this.poemStr = this.replaceStr(this.poemStr, 
+                                       this.mShuffleIndex[shuffleStrIndex], 
+                                       this.shuffleStr.charAt(shuffleStrIndex));
+        this.count++;
+        if (this.count >= 4) {
+          uni.showToast({
+          title: '你真棒！',
+          duration: 2000
+          });
+        }
+      },
       randomCharSetter(str) {
         str = str.replaceAll('。', '')
         str = str.replaceAll('，', '')
@@ -93,13 +124,45 @@
       },
       shuffle(arr) {
         let temp, length = arr.length;
+        let res = [];
+        for (let i = 0; i < length; i++) res.push(i);
         for (let i = 0; i < length - 1; i++) {
           let index = Math.floor(Math.random() * (length--));
           temp = arr[index];
           arr[index] = arr[length];
           arr[length] = temp;
+
+          // temp_idx = res[index];
+          // res[index] = res[length];
+          // res[length] = temp_idx;
         }
-        return arr;
+        return res;
+      },
+      isOKchar(char) {
+        return (char != "，") &&
+          (char != "。") &&
+          (char != "！") &&
+          (char != ",") &&
+          (char != "？") &&
+          (char != "之");
+      },
+      shuffleIndex(str) {
+        let res = [],
+          tempArr = [];
+        str = str.split('');
+        for (let i = 0; i < str.length; ++i) {
+          tempArr.push(i);
+        }
+        for (let i = 0; i < 4;) {
+          let index = Math.floor(Math.random() * (str.length));
+          if (this.isOKchar(str[index])) {
+            res.push(tempArr[index]);
+            ++i;
+          }
+          str.splice(index, 1);
+          tempArr.splice(index, 1);
+        }
+        return res;
       },
       /**
        * 添加测试图片
@@ -149,12 +212,12 @@
       /**
        * 添加文本
        */
-      onAddText(char,aId,aCount,ranX,ranY) {
+      onAddText(char, aId, aCount, ranX, ranY) {
         this.graph.list.push({
           type: 'text',
           text: char,
-          x:ranX,
-          y:ranY,
+          x: ranX,
+          y: ranY,
           ansId: aId,
           ansCount: aCount
         });
@@ -260,6 +323,7 @@
     padding: 10rpx;
     background-color: #7ab598;
   }
+
   .btn {
     padding: 10rpx 20rpx;
     float: left;

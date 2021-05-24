@@ -1084,6 +1084,7 @@
               this.drawArr.splice(indexArr[k], 1);
             }
             this.drawArr[i].text = this.str[item.ansId];
+            this.$emit('updatePoemStr', item.ansId);
             this.drawArr[i].ansId = -1;
             console.log(this.str[item.ansId]);
           }
