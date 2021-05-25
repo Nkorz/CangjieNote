@@ -206,7 +206,7 @@
           }
 
           this.disTagV = 1;
-          if (this.currentIndex >= this.cardDatas.length - 2) {
+          if (this.currentIndex >= this.cardDatas.length - 1) {
             console.log('加数据')
             this.$emit("routerChange");
             // console.log(this.cardDatas.length)

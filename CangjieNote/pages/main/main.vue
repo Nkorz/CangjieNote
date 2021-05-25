@@ -11,6 +11,8 @@
     </view>
     <HCard :cardDatas='data' v-if='isrefresh' @routerChange="addData">
     </HCard>
+    <view v-if="!isrefresh">搜索结果查询完毕，请点击重新刷新！</view>
+    <button type="primary" v-if="!isrefresh" @tap="getData">刷新</button>
 
   </view>
 </template>
@@ -28,6 +30,7 @@
         menuFlag: false,
         value: '',
         isrefresh: true,
+        issearched: false,
         data: [{
             name: '',
             color: '#aaff00'
@@ -123,6 +126,8 @@
     methods: {
       getData() {
         let that = this;
+        that.isrefresh = true;
+        that.issearched = false;
         wx.cloud.callFunction({
           // 云函数名称
           name: "poemCardView",
@@ -164,15 +169,15 @@
             // 传给云函数的参数
             data: {
               key: value,
-              size: 5,
+              size: 10,
             },
             success: function(res) {
               console.log(value)
               console.log(res.result.data.list)
               that.data = res.result.data.list
+              that.issearched = true;
               // that.$refs.loadRefresh.completed()
               // console.log(res.result.data); // 3
-
             },
             fail: console.error,
           });
@@ -184,20 +189,25 @@
       },
       addData() {
         let that = this;
-        wx.cloud.callFunction({
-          // 云函数名称
-          name: "poemCardView",
-          // 传给云函数的参数
-          data: {
-            size: 10,
-          },
-          success: function(res) {
-            // console.log(res.result)
-            console.log(res.result.data); // 3
-            that.data = that.data.concat(res.result.data)
-          },
-          fail: console.error,
-        });
+        if (!that.issearched) {
+          wx.cloud.callFunction({
+            // 云函数名称
+            name: "poemCardView",
+            // 传给云函数的参数
+            data: {
+              size: 10,
+            },
+            success: function(res) {
+              // console.log(res.result)
+              console.log(res.result.data); // 3
+              that.data = that.data.concat(res.result.data);
+              that.isrefresh = true;
+            },
+            fail: console.error,
+          });
+        } else {
+          that.isrefresh = false;
+        }
       },
       // clickMenu() {
       //   this.menuFlag = !this.menuFlag;
