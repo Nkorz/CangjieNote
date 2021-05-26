@@ -1,7 +1,7 @@
 <template>
   <view class="fc-main">
     <view class="fc-cards" >
-      <view @click="toDetail" @touchstart="playerTouchStart" @touchmove="playerTouchMove" @mousemove="playerTouchMove" @mouseup="playerTouchEnd"
+      <view @click="toDetail" @touchstart="playerTouchStart" @touchmove="playerTouchMove" 
         @touchend="playerTouchEnd" class="fc-card" v-for="(item,index) in cards" :key='index' :style="[{transform: `rotate(${cards[index].rotate+((disTagV-1)*5)}deg) translate3d(${cards[index].translateX}, ${cards[index].translateY}, 0px)`},{'z-index':`${cards[index].zIndex}`}, 
           { transition: `transform ${cards[index].transitionTime}s ease 0s` },{opacity:`${cards[index].opacity}`}]">
         <!-- <view class="fc-content">
@@ -147,6 +147,8 @@
           // 记录开始位置
           this.move.startY = ev.touches[0].clientY
           this.move.startX = ev.touches[0].clientX;
+          console.log(this.move.startY)
+          console.log(this.move.startX)
         }
       },
       playerTouchMove(ev) {

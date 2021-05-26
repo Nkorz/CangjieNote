@@ -23,7 +23,7 @@
     type,
     text,
     fontSize = 20,
-    color = 'white',
+    color = 'black',
     url = null,
     rotate = 0,
     sourceId = null,
