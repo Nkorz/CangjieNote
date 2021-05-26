@@ -177,7 +177,7 @@
             // 传给云函数的参数
             data: {
               key: value,
-              size: 10,
+              size: 20,
             },
             success: function(res) {
               console.log(value)
