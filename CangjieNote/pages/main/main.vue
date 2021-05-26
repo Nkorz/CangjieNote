@@ -84,7 +84,8 @@
           console.log("login res", res);
           if (res) {
             app.globalData.openid = res.result.openid;
-            if (!res.result.success) {
+            const user = wx.getStorageSync('user');
+            if (!res.result.success || !user) {
               uni.showModal({
                 title: "提示",
                 content: "请授权登陆！",
@@ -106,7 +107,7 @@
                         });
                         let user = res.userInfo;
                         wx.setStorageSync('user', user);
-                        this.userInfo = user;
+                        that.userInfo = user;
                       },
                       fail: console.error
                     });
@@ -121,8 +122,7 @@
         fail: console.error
       });
     },
-    onShow() {
-    },
+    onShow() {},
     methods: {
       showToast() {
         this.$refs.uToast.show({
@@ -181,19 +181,27 @@
             },
             success: function(res) {
               console.log(value)
-              console.log(res.result.data.list)
-              that.data = res.result.data.list
-              that.issearched = true;
+              console.log(res.result.data)
+              if (res.result.data.length) {
+                that.data = res.result.data;
+                that.issearched = true;
+                that.$refs.uToast.show({
+                  title: '搜索完成',
+                  type: 'success'
+                  // url: '/pages/user/index'
+                })
+              } else {
+                that.$refs.uToast.show({
+                  title: '抱歉，目前还没有搜索结果哦！',
+                  type: 'fail'
+                  // url: '/pages/user/index'
+                })
+              }
               // that.$refs.loadRefresh.completed()
               // console.log(res.result.data); // 3
             },
             fail: console.error,
           });
-          this.$refs.uToast.show({
-            title: '搜索完成',
-            type: 'success'
-            // url: '/pages/user/index'
-          })
         }
       },
       completed() {

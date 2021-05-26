@@ -53,6 +53,13 @@ exports.main = async (event, context) => {
       data: []
     }
   }
+
+  res = res.list;
+  for (let i = 0; i < res.length; ++i) {
+    // TODO: 目前只支持诗经
+    let arr = res[i].array;
+    res[i]["addDataStr"] = "「" + res[i].flag + "·" + arr[0]["v"] + "·" + arr[1]["v"] + "」";
+  }
                 
   return {
     code: 0,

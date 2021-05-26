@@ -58,7 +58,11 @@ exports.main = async (event, context) => {
       author: author,
       star: star_list.includes(poem["_id"]),
       starNum: poem["stars"],
-      content: poem["content"]
+      content: poem["content"],
+      // TODO: 只支持诗经
+      addDataStr: "「" + poem["flag"] + "·" 
+                       + poem["additional_data"]["chapter"] + "·" 
+                       + poem["additional_data"]["section"] +  "」"
     });
   });
 
