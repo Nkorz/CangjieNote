@@ -44,9 +44,6 @@ exports.main = async (event, context) => {
       .update({
         data: {
           userInfo: event.userInfo,
-          stars: [], // 点赞的清单
-          collection: [], // 收藏的清单
-          comments: [] // 评论的清单
         },
         success:res=>{
           console.log("更新成功");
