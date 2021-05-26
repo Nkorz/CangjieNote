@@ -57,7 +57,9 @@ exports.main = async (event, context) => {
   if (poem["additional_data"].hasOwnProperty("author")) 
   author = poem["additional_data"]["author"];
   else if (poem.hasOwnProperty("flag")) 
-  author = "「" + poem["flag"] + "」";
+  author = "「" + poem["flag"] + "·" + 
+                  poem["additional_data"]["chapter"] + "·" + 
+                  poem["additional_data"]["section"] + "」";
   formatted_data={
     id: poemid,
     title: poem["title"],

@@ -2,8 +2,8 @@
  * @FileDescription: 诗词展示卡片组件
  * @Author: 张祥玙
  * @Date: 2021.5.15 13:14
- * @LastEditors: 张祥玙
- * @LastEditTime: 2021.5.16 10:41
+ * @LastEditors: 靳鑫
+ * @LastEditTime: 2021.5.26 21:16
  -->
 <template>
   <view class="u-card-wrap">
@@ -13,7 +13,7 @@
       :index="poem.id"
       :title="poem.title"
       :sub-title="poem.author"
-      margin="50rpx"
+      margin="25rpx"
       padding="30"
       border="false"
       border-radius="20"
@@ -67,6 +67,13 @@ export default {
       starNum: 0,
     };
   },
+  mounted() {
+    const url = 'https://636c-cloud0-backend-7gnbnkiz459f6b99-1305918868.tcb.qcloud.la/%E5%8D%8E%E6%96%87%E6%A5%B7%E4%BD%93.ttf?sign=88ed0bcf734258193636a95983753717&t=1621774028'
+    uni.loadFontFace({
+      family: 'font-test',
+      source: `url("${url}")`
+    })
+  },
   watch: {
     poem(val) {
       this.star = val.star;
@@ -79,7 +86,7 @@ export default {
         return [];
       }
       if (!this.thumb) {
-        return this.poem.content;
+        return this.normalizedUnthumbedContent(this.poem.content);
       }
       let firstItem = this.poem.content[0];
       let len = firstItem.length;
@@ -105,6 +112,65 @@ export default {
         params: { str: poemStr },
       });
       // this.$emit("routerChange", this.poem.id);
+    },
+    _isSign(char) {
+      return char == "。" || 
+             char == "，" || 
+             char == "," ||
+             char == "！" ||
+             char == "？";
+    },
+    _splitSign(_sentences, sign) {
+      var res = [];
+      for (var i = 0; i < _sentences.length; ++i) {
+        var sentence = _sentences[i];
+        var sentences = sentence.split(sign);
+        for (var j = 0; j < sentences.length;) {
+          if (sentences[j] === "") {
+            sentences.splice(j, 1);
+          } else {
+            if (!this._isSign(sentences[j][sentences[j].length - 1])) {
+              sentences[j] = sentences[j] + sign;
+            }
+            ++j;
+          }
+        }
+        res = res.concat(sentences);
+      }
+      return res;
+    },
+    splitFullStop(sentence) {
+      var sentences = this._splitSign([sentence], "？");
+      sentences = this._splitSign(sentences, "！");
+      sentences = this._splitSign(sentences, "。");
+      return sentences;
+    },
+    splitComma(sentence) {
+      var sentences = this._splitSign([sentence], "，");
+      sentences = this._splitSign(sentences, ",");
+      return sentences;
+    },
+    normalizedUnthumbedContent(content) {
+      const max_length = 20;
+      console.log(content);
+      var res = [];
+      for (var i = 0; i < content.length; ++i) {
+        if (content[i].length > max_length) {
+          var temp = this.splitFullStop(content[i]);
+          var temp_res = [];
+          for (var j = 0; j < temp.length; ++j) {
+            if (temp[j].length > max_length) {
+              temp_res = temp_res.concat(this.splitComma(temp[j]));
+            } else {
+              temp_res.push(temp[j]);
+            }
+          }
+          res = res.concat(temp_res);
+        } else {
+          res.push(content[i]);
+        }
+      }
+      return res;
     },
     starClick(_) {
       this.star ? this.starNum-- : this.starNum++;
@@ -138,6 +204,7 @@ export default {
   font-size: 32rpx;
   color: #333;
   text-align: center;
+  font-family: font-test;
 }
 
 .card-foot-icon {
