@@ -11,9 +11,9 @@
     </view>
     <HCard :cardDatas='data' v-if='isrefresh' @routerChange="addData">
     </HCard>
-    <view v-if="!isrefresh">搜索结果查询完毕，请点击重新刷新！</view>
-    <button type="primary" v-if="!isrefresh" @tap="getData">刷新</button>
-
+    <!-- <view v-if="!isrefresh">搜索结果查询完毕，请点击重新刷新！</view>
+    <button type="primary" v-if="!isrefresh" @tap="getData">刷新</button> -->
+    <u-toast ref="uToast" />
   </view>
 </template>
 
@@ -124,6 +124,14 @@
       this.getData();
     },
     methods: {
+      showToast() {
+        this.$refs.uToast.show({
+          title: '没有更多内容，已为您刷新',
+          type: 'primary'
+          // url: '/pages/user/index'
+        })
+        this.getData()
+      },
       getData() {
         let that = this;
         that.isrefresh = true;
@@ -181,7 +189,11 @@
             },
             fail: console.error,
           });
-
+          this.$refs.uToast.show({
+            title: '搜索完成',
+            type: 'success'
+            // url: '/pages/user/index'
+          })
         }
       },
       completed() {
@@ -207,6 +219,7 @@
           });
         } else {
           that.isrefresh = false;
+          that.showToast()
         }
       },
       // clickMenu() {

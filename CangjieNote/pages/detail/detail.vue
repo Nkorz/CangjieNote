@@ -4,7 +4,7 @@
 		<u-line></u-line>
 		<u-subsection :list="[{ name: '赏析' }, { name: '译文' }, { name: '注释' }]" :current="current" :animation="true"
 			bgColor="#FFFFFF" active-color="#8C2E2E" @change="sectionChange"></u-subsection>
-		<u-read-more ref="uReadMore" :toggle="true" v-if="current === 0 && !isEmpty[0]">
+		<u-read-more ref="uReadMore" :toggle="true" v-if="current === 0 && !isEmpty[0]" color="#8C2E2E">
 			<u-parse class="analysis" :html="shangxi" @load="parseLoaded"></u-parse>
 		</u-read-more>
 		<u-empty class="empty-icon" v-else-if="current === 0 && isEmpty[0]" text="暂无赏析"></u-empty>
