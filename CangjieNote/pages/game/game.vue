@@ -5,10 +5,17 @@
         @updatePoemStr="updatePoemStr" width="700" height="750" enableUndo="true"></game-area>
     </view>
     <view class="text">
-      <text class="peomstr">{{poemStr}}</text>
+      <text class="peomstr" v-if="!hinted">{{poemStr}}</text>
+      <text class="peomstr" v-if="hinted">{{rawPoemStr}}</text>
     </view>
     
-    
+    <image src="../../static/navi.svg" 
+      id="_drag_button"
+      class="hint" 
+      :style="'left: ' + left + 'px; top:' + top + 'px;'"
+      @touchstart="hintStart"
+      @touchmove.stop.prevent="touchmove"
+      @touchend="hintEnd"></image>
     <br />
     <!-- {{shuffleStrArr.join('')}} -->
     <!--    <view class="btn" @tap="onAddImage">添加图片</view>
@@ -30,8 +37,19 @@
   export default {
     data() {
       return {
+        top:0,
+        left:0,
+        width: 0,
+        height: 0,
+        offsetWidth: 0,
+        offsetHeight: 0,
+        windowWidth: 0,
+        windowHeight: 0,
+        
         count: 0,
         poemStr: '',
+        rawPoemStr: '',
+        hinted: false,
         mShuffleIndex: [],
         shuffleStrArr: [],
         graph: {
@@ -54,6 +72,7 @@
       let poemStr = options.str;
       let that = this;
       that.poemStr = poemStr;
+      that.rawPoemStr = poemStr;
       // poemStr = this.randomCharSetter(poemStr);
       // let shuffleStr = this.shuffle(poemStr.split('')).join('').slice(0, 4)
       let shuffleIndex = this.shuffleIndex(poemStr).slice(0, 4);
@@ -107,6 +126,30 @@
           console.log("error:", error);
         },
       });
+    },
+    mounted() {
+    	const sys = uni.getSystemInfoSync();
+    	
+    	this.windowWidth = sys.windowWidth;
+    	this.windowHeight = sys.windowHeight;
+    	
+    	// #ifdef APP-PLUS
+    		this.existTabBar && (this.windowHeight -= 50);
+    	// #endif
+    	if (sys.windowTop) {
+    		this.windowHeight += sys.windowTop;
+    	}
+    	console.log(sys)
+    	
+    	const query = uni.createSelectorQuery().in(this);
+    	query.select('#_drag_button').boundingClientRect(data => {
+    		this.width = data.width;
+    		this.height = data.height;
+    		this.offsetWidth = data.width / 2;
+    		this.offsetHeight = data.height / 2;
+    		this.left = this.windowWidth - this.width - this.edge;
+    		this.top = this.windowHeight - this.height - this.edge;
+    	}).exec();
     },
     components: {
       gameArea
@@ -168,6 +211,38 @@
           (char != ",") &&
           (char != "？") &&
           (char != "之");
+      },
+      changeHint() {
+        this.hinted = !this.hinted;
+      },
+      hintStart() {
+        this.hinted = true;
+      },
+      hintEnd() {
+        this.hinted = false;
+      },
+      touchmove(e) {
+        // 单指触摸
+        if (e.touches.length !== 1) {
+        	return false;
+        }
+        
+        this.left = e.touches[0].clientX - this.offsetWidth;
+        
+        let clientY = e.touches[0].clientY - this.offsetHeight;
+        // #ifdef H5
+        	clientY += this.height;
+        // #endif
+        let edgeBottom = this.windowHeight - this.height - this.edge;
+        
+        // 上下触及边界
+        if (clientY < this.edge) {
+        	this.top = this.edge;
+        } else if (clientY > edgeBottom) {
+        	this.top = edgeBottom;
+        } else {
+        	this.top = clientY
+        }
       },
       shuffleIndex(str) {
         let res = [],
@@ -363,6 +438,18 @@
     font-size: 50rpx;
     font-family: font-test;
     
+  }
+  
+  .hint {
+    position: absolute;
+    width: 80rpx;
+    height: 80rpx;
+    top: 710rpx;
+    right: 45rpx;
+    z-index: 999999;
+    background-color: rgba(102, 175, 123, 1);
+    border-radius: 50%;
+    padding: 20rpx;
   }
   
   .gameArea {
