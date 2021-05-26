@@ -9,7 +9,7 @@
       <text class="peomstr" v-if="hinted">{{rawPoemStr}}</text>
     </view>
     
-    <image src="../../static/navi.svg" 
+    <image src="../../static/hint.svg" 
       id="_drag_button"
       class="hint" 
       :style="'left: ' + left + 'px; top:' + top + 'px;'"
@@ -445,9 +445,10 @@
     width: 80rpx;
     height: 80rpx;
     top: 710rpx;
-    right: 45rpx;
+    right: 40rpx;
     z-index: 999999;
-    background-color: rgba(102, 175, 123, 1);
+    background-color: rgba(92, 129, 84, 0.5);
+    box-shadow: 0rpx 0rpx 30rpx rgba(0, 0, 0, 0.1);
     border-radius: 50%;
     padding: 20rpx;
   }

@@ -302,7 +302,8 @@
     left: 0;
     width: 80rpx;
     height: 80rpx;
-    background-color: rgba(102, 175, 123, 0.2);
+    background-color: rgba(158, 77, 74, 0.8);
+    box-shadow: 0 0 5rpx 1rpx rgba(111, 111, 111, 0.3);
     border-radius: 50%;
     padding: 20rpx;
     cursor: pointer;
@@ -317,9 +318,9 @@
     left: 10rpx;
     padding: 20rpx;
     border-radius: 50%;
-    background-color: rgba(133, 162, 175, 0.2);
+    background-color: rgba(84, 113, 80, 0.3);
     border: none;
-    box-shadow: 0 0 5rpx 1rpx rgba(0, 0, 0, .05);
+    box-shadow: 0 0 5rpx 1rpx rgba(111, 111, 111, 0.3);
     z-index: -1000;
     opacity: 0;
   }
@@ -338,7 +339,7 @@
 
   .menu.active .menuTrigger {
     transform: rotateZ(225deg);
-    background-color: rgba(102, 175, 123, 0.3);
+    background-color: rgba(84, 113, 80, 0.8);
   }
 
   .menu.active .menuItem1 {
