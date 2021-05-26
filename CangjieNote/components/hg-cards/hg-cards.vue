@@ -81,7 +81,7 @@
         console.log('n')
         console.log(n)
         if (!n.length) return;
-        if (this.currentIndex > n.length) {
+        if (this.currentIndex >= n.length) {
           this.currentIndex = 0;
         }
         let strList = this.sentenceSplit(n[this.currentIndex].content[0])
