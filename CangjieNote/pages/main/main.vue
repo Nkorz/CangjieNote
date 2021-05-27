@@ -1,7 +1,7 @@
 <template>
   <view class='back'>
     <view class="search-wrap">
-      <u-search class="search" v-model="value" @change="change" @custom="custom" @search="search" shape="round"
+      <u-search class="search" v-model="value" @custom="custom" @search="search" shape="round"
         :clearabled="clearabled" :show-action="showAction" :input-align="inputAlign" @clear="clear"></u-search>
     </view>
     <view class="menu" :class="{active:menuFlag}">

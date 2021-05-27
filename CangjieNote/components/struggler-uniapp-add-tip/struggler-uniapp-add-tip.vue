@@ -24,6 +24,8 @@
       //     }
       // });
       // uni.setStorageSync(SHOW_TIP,true)
+      console.log("2222222")
+      console.log('111111', uni.getStorageInfoSync().keys.includes(SHOW_TIP))
 			this.showTip = !uni.getStorageInfoSync().keys.includes(SHOW_TIP)
 			setTimeout(()=>{
 				this.showTip = false
