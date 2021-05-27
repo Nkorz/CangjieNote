@@ -8,7 +8,7 @@
 				<user-poem-card :poem="item" :thumb="true" @routerChange="toDetail"></user-poem-card>
 			</view>
 		</view>
-		<u-empty class="empty-icon" v-else text="暂无收藏"></u-empty>
+		<u-empty class="empty-icon" v-else-if="isShowCard && isEmpty" text="暂无收藏"></u-empty>
 		<view class="menu" :class="{active:menuFlag}">
 			<image src="../../static/navi.svg" class="menuTrigger" @tap="clickMenu"></image>
 			<image src="../../static/home.svg" class="menuItem menuItem1" @tap="toHome"></image>
@@ -53,7 +53,7 @@
 				wx.cloud.callFunction({
 					name: 'getCollection',
 					success: res => {
-						console.log(res);
+						console.log("current-collections",res);
 						let collections = res.result.data;
 						if(collections.length==0){
 							this.isEmpty = true;
@@ -64,7 +64,7 @@
 								tmp = {
 									id: item._id,
 									title: item.title,
-									author: item.flag,
+									author: "「" + item.flag + "·" + item.additional_data.chapter + "·" + item.additional_data.section + "」",
 									star: true,
 									starNum: item.stars,
 									content: item.content

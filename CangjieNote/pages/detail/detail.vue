@@ -1,40 +1,27 @@
 <template>
-  <view class="">
-    <add-tip :tip="tip" :duration="duration"/>
-    <view class="poem-wrap">
-      <poem-card-game class="card" :poem="poem" :thumb="false"></poem-card-game>
-    </view>
-    <u-line></u-line>
-    <u-subsection :list="[{ name: '赏析' }, { name: '译文' }, { name: '注释' }]" :current="current" :animation="true" bgColor="#FFFFFF"
-      active-color="#8C2E2E" @change="sectionChange"></u-subsection>
-    <u-read-more class="analysis" ref="uReadMore" :toggle="true" v-if="current === 0 && !isEmpty[0]" color="#8C2E2E">
-      <u-parse class="analysis" :html="shangxi" @load="parseLoaded"></u-parse>
-    </u-read-more>
-    <u-empty class="empty-icon" v-else-if="current === 0 && isEmpty[0]" text="暂无赏析"></u-empty>
-    <u-empty class="empty-icon" v-else-if="current === 1 && isEmpty[1]" text="暂无翻译"></u-empty>
-    <u-read-more color="#8C2E2E" ref="uReadMore" :toggle="true" v-else-if="current === 1 && !isEmpty[1]">
-      <u-parse class="analysis" :html="fanyi" @load="parseLoaded"></u-parse>
-    </u-read-more>
-    <u-empty class="empty-icon" v-else-if="current === 2 && isEmpty[2]" text="暂无注释"></u-empty>
-    <!-- 		<view class="analysis" v-else>
-			<view v-if="zhushi.length === 1">
-				<p>{{ zhushi }}</p>
-			</view>
-			<view v-else>
-				<ol v-for="(item, index) in zhushi" :key="item">
-					<li>{{ index + "." + item }}</li>
-				</ol>
-			</view>
-		</view> -->
-    <u-read-more color="#8C2E2E" ref="uReadMore" :toggle="true" text-indent="0em" v-else>
-      <u-parse class="analysis" :html="zhushi" @load="parseLoaded"></u-parse>
-    </u-read-more>
-    <image src="../../static/zhujian.svg"
-      id="_drag_button"
-      class="hint" 
-      :style="'left: ' + left + 'px; top:' + top + 'px;'"
-     @click="toGame"></image>
-  </view>
+	<view class="">
+		<poem-card-game :poem="poem" :thumb="false"></poem-card-game>
+		<u-line></u-line>
+		<u-subsection :list="[{ name: '赏析' }, { name: '译文' }, { name: '注释' }]" :current="current" :animation="true"
+			bgColor="#FFFFFF" active-color="#8C2E2E" @change="sectionChange"></u-subsection>
+		<u-read-more ref="uReadMore" :toggle="true" v-if="current === 0 && !isEmpty[0]" color="#8C2E2E">
+			<u-parse class="analysis" :html="shangxi" @load="parseLoaded"></u-parse>
+		</u-read-more>
+		<u-empty class="empty-icon" v-else-if="current === 0 && isEmpty[0]" text="暂无赏析"></u-empty>
+		<u-empty class="empty-icon" v-else-if="current === 1 && isEmpty[1]" text="暂无翻译"></u-empty>
+		<u-read-more ref="uReadMore" :toggle="true" v-else-if="current === 1 && !isEmpty[1]" color="#8C2E2E">
+			<u-parse class="analysis" :html="fanyi" @load="parseLoaded"></u-parse>
+		</u-read-more>
+		<u-empty class="empty-icon" v-else-if="current === 2 && isEmpty[2]" text="暂无注释"></u-empty>
+		<u-read-more ref="uReadMore" :toggle="true" text-indent="0em" color="#8C2E2E" v-else>
+			<u-parse class="analysis" :html="zhushi" @load="parseLoaded"></u-parse>
+		</u-read-more>
+		<view class="menu" :class="{ active: menuFlag }">
+			<image src="../../static/navi.svg" class="menuTrigger" @tap="clickMenu"></image>
+			<image src="../../static/home.svg" class="menuItem menuItem1" @tap="toHome"></image>
+			<image src="../../static/user.svg" class="menuItem menuItem3" @tap="toUser"></image>
+		</view>
+	</view>
 </template>
 
 <script>
