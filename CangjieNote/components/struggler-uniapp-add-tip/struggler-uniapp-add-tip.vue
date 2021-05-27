@@ -13,12 +13,18 @@
 	export default{
 		data(){
 			return{
-				showTip:true,
+				showTip:false,
 			}
 		},
 		mounted() {
-      uni.setStorageSync(SHOW_TIP,false)
-			// this.showTip = !uni.getStorageInfoSync().keys.includes(SHOW_TIP)
+      // uni.removeStorage({
+      //     key: 'SHOW_TIP',
+      //     success: function (res) {
+      //         console.log('success');
+      //     }
+      // });
+      // uni.setStorageSync(SHOW_TIP,true)
+			this.showTip = !uni.getStorageInfoSync().keys.includes(SHOW_TIP)
 			setTimeout(()=>{
 				this.showTip = false
 			},this.duration*3000)

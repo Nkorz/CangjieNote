@@ -28,7 +28,7 @@
     <u-read-more color="#8C2E2E" ref="uReadMore" :toggle="true" text-indent="0em" v-else>
       <u-parse class="analysis" :html="zhushi" @load="parseLoaded"></u-parse>
     </u-read-more>
-    <image src="../../static/zhujian.svg"
+    <image :src="icon"
       id="_drag_button"
       class="hint" 
       :style="'left: ' + left + 'px; top:' + top + 'px;'"
@@ -44,6 +44,10 @@
   export default {
     data() {
       return {
+        icon:'',
+        imageList:['../../static/zhujian.svg','../../static/zhi.svg','../../static/shu.svg'],
+        tip:"点击悬浮按钮进入游戏",
+        duration:1,
         top:0,
         left:0,
         width: 0,
@@ -146,6 +150,10 @@
       }
     },
     onLoad(options) {
+      let len = this.imageList.length
+      let ran = Math.floor(len * Math.random())
+      this.icon = this.imageList[ran]
+      console.log(this.icon)
       const sys = uni.getSystemInfoSync();
       
       this.windowWidth = sys.windowWidth;
