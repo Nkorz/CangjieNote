@@ -68,6 +68,12 @@
 			},
 			loginOut(){
 				this.userInfo = '';
+        uni.removeStorage({
+            key: 'SHOW_TIP',
+            success: function (res) {
+                console.log('success');
+            }
+        });
 				wx.setStorageSync('user',null);
 				this.$emit('showCollections',false);
 			}
