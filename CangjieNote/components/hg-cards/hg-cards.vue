@@ -15,6 +15,12 @@
           <!-- <text class="title-text">{{title}}</text> -->
           <image src="../../static/logo.png" class="title-image"></image>
         </view>
+        <view class="charpter">
+          <view class="poem-char-charpter" v-for="item in charpter">
+            <text class="ch">{{item}}</text>
+          </view>
+        </view>
+        
         <view class="poem-content">
           <view class="poem-char" v-for="item in charList">
             <text class="te">{{item}}</text>
@@ -45,6 +51,7 @@
     data() {
       return {
         title: [],
+        charpter:[],
         id:'',
         charList: [],
         isClick: true,
@@ -93,6 +100,8 @@
         // strList = strList.split('！')
         this.charList = strList.split('')
         this.title = n[this.currentIndex].title.split('')
+        let charp = n[this.currentIndex].addDataStr.split('·')
+        this.charpter = (charp[1]+'·'+charp[2]).split('')
         this.id = n[this.currentIndex].id || n[this.currentIndex]._id;
       },
       sentenceSplit(str) {
@@ -221,6 +230,8 @@
           // sentenceSplit(n[this.currentIndex].content[0])
           this.charList = this.sentenceSplit(this.cardDatas[this.currentIndex].content[0]).split('')
           this.title = this.cardDatas[this.currentIndex].title.split('')
+          let charp = this.cardDatas[this.currentIndex].addDataStr.split('·')
+          this.charpter = (charp[1]+'·'+charp[2]).split('')
           this.id = this.cardDatas[this.currentIndex].id
         } else {
           item_0.translateX = 0;
@@ -235,11 +246,27 @@
 </script>
 
 <style lang="scss">
+  .poem-char-charpter{
+    flex-direction: column;
+    width: 80rpx;
+    // background-color: pink;
+    // font-size: 50rpx;
+    // margin: 30rpx;
+  }
   .title {
     position: absolute;
     bottom: 80rpx;
     float: left;
     margin-left: 70rpx;
+    // background-color: pink;
+    display: inline-block;
+  }
+  
+  .charpter{
+    position: absolute;
+    bottom: 90rpx;
+    float: left;
+    margin-left: 150rpx;
     // background-color: pink;
     display: inline-block;
   }
@@ -250,9 +277,15 @@
     width: 60rpx;
     height: 60rpx;
   }
-
+  
   .te {
     font-size: 50rpx;
+    font-family: font-test;
+  }
+  
+  .ch {
+    font-size: 30rpx;
+    color: rgba(113, 113, 113, 0.9);
     font-family: font-test;
   }
 

@@ -62,7 +62,7 @@
 			// 提示的文字颜色
 			color: {
 				type: String,
-				default: '#2979ff'
+				default: '#8C2E2E'
 			},
 			// 提示文字的大小
 			fontSize: {

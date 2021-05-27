@@ -7,8 +7,8 @@
  -->
 <template>
   <view class="u-card-wrap">
-    <u-card class="card" @body-click="cardClick" @head-click="cardClick" :index="poem.id" :title="poem.title" :sub-title="poem.author"
-      margin="25rpx" padding="30" border="false" border-radius="20">
+    <u-card class="card" @body-click="cardClick" @head-click="cardClick" :index="poem.id" :title="poem.title"
+      :sub-title="poem.author" margin="40rpx" padding="30" :border="false" border-radius="20">
       <view class="" slot="body">
         <view class="u-body-content">
           <p v-for="item in normalizedContent" :key="item.index">
@@ -188,12 +188,13 @@
 </script>
 
 <style scoped lang="scss">
-  // .u-card-wrap{
-  //   margin-left: 10rpx;
-  //   margin-left: 10rpx;
-  //   box-shadow: 0rpx 0rpx 30rpx rgba(0, 0, 0, 0.1);
-  // }
-  
+  .u-card-wrap {
+    background-color: white;
+    margin: 40rpx;
+    border-radius: 10rpx;
+    box-shadow: 0rpx 0rpx 30rpx rgba(125, 125, 125, 0.4);
+  }
+
   .u-body-content p {
     font-size: 32rpx;
     color: #333;
