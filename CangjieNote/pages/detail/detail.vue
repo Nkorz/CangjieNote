@@ -1,5 +1,6 @@
 <template>
   <view class="">
+    <add-tip :tip="tip" :duration="duration"/>
     <view class="poem-wrap">
       <poem-card-game class="card" :poem="poem" :thumb="false"></poem-card-game>
     </view>
@@ -32,18 +33,19 @@
       id="_drag_button"
       class="hint" 
       :style="'left: ' + left + 'px; top:' + top + 'px;'"
-      @touchstart="hintStart"
-      @touchmove.stop.prevent="touchmove"
-      @touchend="hintEnd" @click="toGame"></image>
+     @click="toGame"></image>
   </view>
 </template>
 
 <script>
+  import addTip from "../../components/struggler-uniapp-add-tip/struggler-uniapp-add-tip"
   import poemCardGame from "../../public-components/poem-card-game.vue";
   import comment from "../../public-components/comment.vue";
   export default {
     data() {
       return {
+        tip:"点击悬浮按钮进入游戏",
+        duration:1,
         top:0,
         left:0,
         width: 0,
@@ -65,6 +67,7 @@
       };
     },
     components: {
+      addTip,
       comment,
       poemCardGame,
     },
@@ -238,11 +241,18 @@
 
 <style scoped lang="scss">
   .hint {
-    position: absolute;
+    position: fixed;
+    z-index: 999999;
+    width: 110rpx;
+    height: 110rpx;
+    bottom: 120rpx;
+    right: 44rpx;
+    border-radius: 50%;
+    // position: absolute;
     width: 80rpx;
     height: 80rpx;
-    top: 500rpx;
-    right: 40rpx;
+    // top: 500rpx;
+    // right: 40rpx;
     z-index: 999999;
     background-color: rgba(255, 255, 255, 0.0);
     box-shadow: 0rpx 0rpx 30rpx rgba(0, 0, 0, 0.1);
