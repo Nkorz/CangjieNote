@@ -139,7 +139,7 @@
         return sentences;
       },
       normalizedUnthumbedContent(content) {
-        const max_length = 15;
+        const max_length = 17;
         console.log(content);
         var res = [];
         for (var i = 0; i < content.length; ++i) {
