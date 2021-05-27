@@ -17,6 +17,7 @@
       @touchmove.stop.prevent="touchmove"
       @touchend="hintEnd"></image>
     <br />
+    <u-toast icon="true" ref="uToast" />
     <!-- {{shuffleStrArr.join('')}} -->
     <!--    <view class="btn" @tap="onAddImage">添加图片</view>
     <view class="btn" @tap="onAddTest">添加测试图片</view>
@@ -168,10 +169,16 @@
           this.shuffleStr.charAt(shuffleStrIndex));
         this.count++;
         if (this.count >= this.shuffleStrArr.length) {
-          uni.showToast({
-            title: '你真棒！',
-            duration: 2000
-          });
+          // uni.showToast({
+          //   title: '你真棒！',
+          //   duration: 2000
+          // });
+          this.$refs.uToast.show({
+            title: '拼完啦！',
+            type: 'success',
+            icon: true
+            // url: '/pages/user/index'
+          })
         }
       },
       randomCharSetter(str) {
