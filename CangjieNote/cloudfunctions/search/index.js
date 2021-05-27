@@ -25,6 +25,7 @@ exports.main = async (event, context) => {
     var res = await db.collection('Poetry')
                       .aggregate()
                       .project({
+                        id: '$_id',
                         content: '$content',
                         flag: '$flag',
                         title: '$title',
@@ -58,7 +59,7 @@ exports.main = async (event, context) => {
   for (let i = 0; i < res.length; ++i) {
     // TODO: 目前只支持诗经
     let arr = res[i].array;
-    res[i]["addDataStr"] = "「" + res[i].flag + "·" + arr[0]["v"] + "·" + arr[1]["v"] + "」";
+    res[i]["addDataStr"] = res[i].flag + "·" + arr[0]["v"] + "·" + arr[1]["v"];
   }
                 
   return {
