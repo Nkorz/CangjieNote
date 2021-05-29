@@ -1078,7 +1078,7 @@
           // 判断是否一致
           var flag = false;
           var ans_id = tempArr[0].ansId;
-          if (ans_id != -1 && tempArr.length == item.ansCount) {
+          if (ans_id != [] && tempArr.length == item.ansCount) {
             for (var k = 1; k < tempArr.length; ++k) {
               flag = true;
               var temp = tempArr[k];
@@ -1097,7 +1097,7 @@
             var _id = ans_id[0];
             this.drawArr[i].text = this.str[_id];
             this.$emit('updatePoemStr', _id);
-            this.drawArr[i].ansId = -1;
+            this.drawArr[i].ansId = [];
             console.log(this.str[_id]);
           }
         }
